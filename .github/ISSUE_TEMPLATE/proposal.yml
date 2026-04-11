@@ -1,0 +1,77 @@
+name: Proposal
+description: Suggest adding or changing something in the specification
+labels: ["proposal"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Use this template to propose a change or addition to the CueScript specification.
+
+        A good proposal explains the problem it solves, not just the solution. If you're not sure your idea is fully formed yet, open a discussion in the Issues or start with an Ambiguity report instead.
+
+        Please check open issues before submitting to avoid duplicates.
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem or gap
+      description: What can't you do with the current spec, or what is currently unclear or incorrect?
+      placeholder: |
+        There's no way to express that two cues should fire simultaneously.
+        In theatre, "LX 5 and SQ 3, GO" is a very common call, but CueScript
+        has no syntax for linking cues this way.
+    validations:
+      required: true
+
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed change
+      description: Describe what you'd like to add or change. Include example syntax if possible.
+      placeholder: |
+        Add a "with cue" trigger form that links two cues:
+
+        LX (cue 5) with cue SQ 3: Fade to blackout
+        SQ (cue 3): Thunder crash
+
+        Both fire on the same GO call.
+    validations:
+      required: true
+
+  - type: textarea
+    id: rationale
+    attributes:
+      label: Rationale
+      description: Why is this the right approach? Are there alternative solutions you considered?
+    validations:
+      required: false
+
+  - type: dropdown
+    id: scope
+    attributes:
+      label: What does this affect?
+      options:
+        - Core syntax
+        - Metadata system
+        - Trigger syntax
+        - Cue numbering
+        - Cue types / conventions
+        - Parser requirements
+        - Fountain compatibility
+        - Grammar
+        - Examples
+        - Other
+    validations:
+      required: true
+
+  - type: dropdown
+    id: version
+    attributes:
+      label: Target version
+      description: Is this a small fix for v1.0, or a larger addition for later?
+      options:
+        - v1.0 (stable release)
+        - v2.0+ (future consideration)
+        - Not sure
+    validations:
+      required: false

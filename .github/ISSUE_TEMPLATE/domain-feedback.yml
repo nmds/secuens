@@ -1,0 +1,65 @@
+name: Domain feedback
+description: A real-world production practice in your domain that isn't covered or is misrepresented in the spec
+labels: ["domain-feedback"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        CueScript is designed to work across theatre, film, live events, and broadcast. But the spec was written from a particular vantage point and may not reflect how things actually work in your field.
+
+        If you work in production and something in the spec doesn't match real practice — or is missing entirely — this is the right place.
+
+        No technical background required. Describe how your domain actually works.
+
+  - type: dropdown
+    id: domain
+    attributes:
+      label: Your domain
+      options:
+        - Theatre
+        - Film / narrative
+        - Live events / corporate
+        - Broadcast / streaming
+        - Music / concert
+        - Other
+    validations:
+      required: true
+
+  - type: input
+    id: role
+    attributes:
+      label: Your role (optional)
+      description: Helps us understand your perspective.
+      placeholder: e.g. Stage manager, 1st AD, broadcast director, LD
+    validations:
+      required: false
+
+  - type: textarea
+    id: practice
+    attributes:
+      label: How it works in your domain
+      description: Describe the convention, cue type, numbering system, or workflow that isn't reflected in the spec. Be as specific as possible — real examples are very welcome.
+      placeholder: |
+        In broadcast, camera cues are typically called as "Ready 2... Take 2" not "Camera cue 2 GO".
+        The spec's trigger syntax doesn't map well to this because...
+    validations:
+      required: true
+
+  - type: textarea
+    id: spec_gap
+    attributes:
+      label: What the spec currently says or doesn't say
+      description: If relevant, note which section of the spec you're responding to.
+      placeholder: |
+        The "Production Coordination Context" section mentions broadcast but only covers
+        camera and audio. Graphics and playback coordination aren't described.
+    validations:
+      required: false
+
+  - type: textarea
+    id: suggestion
+    attributes:
+      label: Suggestion (optional)
+      description: If you have an idea for how the spec could address this, share it. But describing the gap alone is already valuable.
+    validations:
+      required: false

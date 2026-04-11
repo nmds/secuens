@@ -1,0 +1,50 @@
+name: Parser / implementation question
+description: A question or problem encountered while implementing a CueScript parser or tool
+labels: ["implementation"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Use this template if you're building a CueScript parser or tool and have run into something the spec doesn't address clearly enough to implement.
+
+        This is also the right place for questions about parser requirements (MUST / SHOULD / MAY) and edge cases not covered by the spec.
+
+  - type: input
+    id: language
+    attributes:
+      label: Implementation language or environment (optional)
+      placeholder: e.g. Swift, Python, JavaScript, Rust
+    validations:
+      required: false
+
+  - type: textarea
+    id: question
+    attributes:
+      label: Question or problem
+      description: What did you encounter? What does the spec say (or not say) that makes this hard to implement?
+      placeholder: |
+        The spec says parsers MUST "handle Fountain notes" and parse cues within [[ ]]
+        as hidden cues. But what should happen if a [[ ]] block spans multiple lines
+        and contains both a cue line and plain text? Should only the cue line be parsed,
+        or the entire block treated as a single hidden cue?
+    validations:
+      required: true
+
+  - type: textarea
+    id: spec_reference
+    attributes:
+      label: Relevant section of the spec
+      description: Quote or reference the part of the spec you're working from.
+      placeholder: |
+        "Parser Requirements — A CueScript-compliant parser MUST:
+        8. Handle Fountain notes: Parse cues within [[ ]] as hidden cues"
+    validations:
+      required: false
+
+  - type: textarea
+    id: current_approach
+    attributes:
+      label: How you're currently handling it (optional)
+      description: If you've made an implementation decision, describe it. This helps ground the discussion.
+    validations:
+      required: false

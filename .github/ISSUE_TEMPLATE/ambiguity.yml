@@ -1,0 +1,63 @@
+name: Ambiguity report
+description: Something in the spec can be interpreted in more than one way
+labels: ["ambiguity"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Use this template if you found something in the specification — or the formal grammar — that is unclear, contradictory, or open to multiple valid interpretations.
+
+        You don't need to propose a fix. Identifying the problem clearly is enough.
+
+  - type: input
+    id: section
+    attributes:
+      label: Section or rule
+      description: Which part of the spec is ambiguous? (e.g. "Trigger syntax", "Number pattern B", "Metadata format rules")
+      placeholder: e.g. Trigger syntax — "with" keyword
+    validations:
+      required: true
+
+  - type: textarea
+    id: quote
+    attributes:
+      label: Quoted text
+      description: Paste the exact text from the spec that is ambiguous.
+      placeholder: |
+        "trigger-with = "with" , ws , action-text ;"
+    validations:
+      required: true
+
+  - type: textarea
+    id: interpretations
+    attributes:
+      label: Possible interpretations
+      description: Describe the two (or more) ways this could be read. Be specific.
+      placeholder: |
+        Interpretation A: "with" triggers fire at the exact moment the action begins.
+        Interpretation B: "with" triggers fire at any point during the described action.
+    validations:
+      required: true
+
+  - type: textarea
+    id: context
+    attributes:
+      label: Production context (optional)
+      description: If this came up while working on a real production or building a parser, describe the situation briefly.
+    validations:
+      required: false
+
+  - type: dropdown
+    id: domain
+    attributes:
+      label: Your domain
+      description: Where does this ambiguity matter most for you?
+      options:
+        - Theatre
+        - Film
+        - Live events
+        - Broadcast
+        - Multiple / general
+        - Parser implementation
+    validations:
+      required: false
