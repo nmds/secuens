@@ -1,0 +1,43 @@
+Title: Annual Conference — Keynote (CueScript Example)
+Credit: Example file for CueScript v0.9
+Author: CueScript
+Format: CueScript v0.9 / Fountain
+
+---
+
+# ANNUAL CONFERENCE — MAIN STAGE
+
+## Keynote Introduction
+
+House lights at 80%. Music playing. Audience settles.
+
+AUDIO (cue 1) [warn=30s]: Music fade standby
+
+Presenter signals from side stage.
+
+AUDIO (cue 1) [fade=4s, source=playback]: House music fade out
+VIDEO (cue 1) [source=cam1, transition=cut]: Camera 1 — wide stage
+LX (cue 1) [fade=3s]: Stage lights up — full
+
+GRAPHICS (cue 1) [template=title_card, duration=10s]: Display conference title
+
+Title holds. Applause builds.
+
+GRAPHICS (cue 2) [template=lower_third, duration=8s]: Display "KEYNOTE SPEAKER — DR. ANNA REED"
+
+SPEAKER enters from stage left.
+
+AUDIO (cue 2) [source=lav_mic, gate=-20dB]: Activate speaker microphone
+VIDEO (cue 2) [source=cam2, transition=cut, preset=single_shot]: Camera 2 — speaker medium
+
+Applause fades.
+
+SPEAKER
+Thank you all for coming today.
+
+GRAPHICS (cue 3) [template=presentation, source=laptop]: Display slide 1
+VIDEO (cue 3) [source=screen, transition=cut]: Cut to presentation screen
+
+Speaker gestures to screen.
+
+CAMERA (cue 4) [preset=wide, speed=slow]: Pull back — wide shot of stage and screen
