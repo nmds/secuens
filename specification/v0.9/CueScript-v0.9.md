@@ -3,7 +3,7 @@
 
 **Status:** Public Draft — open for community feedback  
 **Date:** January 2026  
-**License:** CC BY 4.0
+**License:** CC BY-ND 4.0
 
 ---
 
@@ -759,9 +759,9 @@ Features being considered for future versions:
 
 ## License
 
-CueScript is an open specification released under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/).
+CueScript is an open specification released under [CC BY-ND 4.0](https://creativecommons.org/licenses/by-nd/4.0/).
 
-Implementations may use any license. The specification itself may be freely used, implemented, and distributed with attribution.
+Implementations may use any license. The specification text may be freely shared and implemented with attribution, but may not be modified or republished in altered form.
 
 ---
 

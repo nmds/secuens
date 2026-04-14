@@ -121,6 +121,6 @@ CueScript is maintained by the [meikr](https://github.com/meikr) organization.
 
 ## License
 
-The CueScript Specification is released under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/).
+The CueScript Specification is released under [CC BY-ND 4.0](https://creativecommons.org/licenses/by-nd/4.0/).
 
-You are free to use, implement, and share the format with attribution. Implementations may use any license.
+You are free to implement and share the specification with attribution. The spec text itself may not be modified or republished in altered form. Implementations may use any license.
