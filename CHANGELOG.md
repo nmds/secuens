@@ -6,6 +6,25 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ---
 
+## [Unreleased] — Editorial revision
+
+### Changed
+- File Format section rewritten: more concise, UTF-8 moved to opening line
+- Fountain Integration heading hierarchy corrected (`###` → `####`)
+- Duplicate Fountain compatibility note removed from Design Principles
+- "Best Practices" subsection in Cue Numbering collapsed into inline note
+- Production Coordination Context section removed (content moved to site documentation)
+- License clarified: CC BY-ND 4.0 (was CC BY 4.0)
+
+### Added
+- Pattern C: QLab-style prefixed numbering (`A1`, `V3`, `A5a`)
+- `.txt` note: accepted as parser input but not a recognized CueScript extension
+
+### Fixed
+- Reference Implementation updated: QMan → QBook, correct repository URL
+
+---
+
 ## [v0.9] — January 2026 — Public Draft
 
 First public release of the CueScript specification, open for community feedback.
