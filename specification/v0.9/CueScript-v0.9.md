@@ -1,24 +1,16 @@
-# CueScript Technical Cue Notation
+## About CueScript
 
-## Specification v0.9 (Public Draft)
+**CueScript** is a plain-text technical cue notation syntax for embedding standardized technical cues within readable scripts. It allows production coordinators, directors, and technical teams to annotate scripts with cue information while keeping them fully readable in any text editor or Fountain-compatible application. Structured cue interpretation is handled at the parser level.
 
-**Status:** Public Draft  
-**Date:** April 2026  
-**License:** CC BY-ND 4.0
-
----
-
-## Overview
-
-**CueScript** is a technical cue notation syntax built on the Fountain screenplay format. It allows production coordinators, directors, and technical teams to embed standardized technical cues within readable scripts while maintaining full compatibility with Fountain-based tools and Final Draft.
+CueScript follows the plain-text annotation philosophy established by Markdown and adopted by Fountain — structured meaning embedded in readable text using only standard characters.
 
 CueScript is a universal format that works across any production context requiring technical notation: theatre, film, television, live events, broadcast, podcasts, and more. The same syntax serves different domains through specialized applications built on the open format.
 
 ### File Format
 
-CueScript documents are plain UTF-8 text files. They can be created and edited in any text editor and are fully compatible with Fountain-based applications.
+CueScript documents are plain UTF-8 text files. They can be created and edited in any text editor. In Fountain-compatible applications, cues render as readable action lines — no modification required.
 
-**File Extensions**
+#### File Extensions
 
 CueScript documents use one of two extensions:
 
@@ -32,13 +24,13 @@ Both extensions contain identical content and are fully interchangeable. The cho
 
 ### Design Principles
 
-1. **Fountain-Native** - Built on Fountain syntax; CueScript documents are valid Fountain documents
-2. **Domain-Agnostic** - Universal format that works across theatre, film, live events, broadcast, and any production context
-3. **Non-Invasive** - Doesn't interfere with screenplay writing or reading experience
-4. **Progressive Enhancement** - Start simple, add detail as production develops
-5. **Parser-Friendly** - Clear, unambiguous patterns for reliable automated processing
-6. **Human-Readable** - Cues are immediately understandable without specialized tools
-7. **Open & Extensible** - Custom cue types and metadata keys welcome; specialized tools can build on the open format
+1. **Plain-Text & Fountain-Compatible** — CueScript files are plain UTF-8 text that open in any Fountain-compatible editor, where cues render as readable action lines. CueScript notation is an independent syntax layer, not a Fountain extension.
+2. **Domain-Agnostic** — Universal format that works across theatre, film, live events, broadcast, and any production context
+3. **Non-Invasive** — Doesn't interfere with screenplay writing or reading experience
+4. **Progressive Enhancement** — Start simple, add detail as production develops
+5. **Parser-Friendly** — Clear, unambiguous patterns for reliable automated processing
+6. **Human-Readable** — Cues are immediately understandable without specialized tools
+7. **Open & Extensible** — Custom cue types and metadata keys welcome; specialized tools can build on the open format
 
 ---
 
@@ -46,11 +38,13 @@ Both extensions contain identical content and are fully interchangeable. The cho
 
 ### Basic Cue Format
 
-```
-CUETYPE (LABEL NUMBER) TRIGGER: DESCRIPTION
+```cuescript
+CUETYPE (LABEL NUMBER) TRIGGER [METADATA]: DESCRIPTION
 ```
 
-**Components:**
+A cue must be written on a single line. Line breaks within a cue are not permitted and will cause a parse error.
+
+#### Components
 
 - **CUETYPE**: Production element identifier (typically 2-6 uppercase letters)
   - Must be uppercase letters (A-Z) only
@@ -58,7 +52,18 @@ CUETYPE (LABEL NUMBER) TRIGGER: DESCRIPTION
   - Based on production discipline conventions
   - Examples: `LX`, `SOUND`, `CAMERA`, `VIDEO`, `AUDIO`
 
+- **`(LABEL NUMBER)`**: The cue identifier block, enclosed in parentheses. LABEL and NUMBER must be separated by at least one space. The opening parenthesis follows the CUETYPE with optional whitespace. Parsers should be flexible with extra whitespace inside the parentheses.
+
+  ```
+  (cue 5)      → Valid
+  (cue  5)     → Valid (extra space tolerated)
+  ( cue 5)     → Valid (extra space tolerated)
+  (cue 5 )     → Valid (extra space tolerated)
+  (cue5)       → Invalid (missing space between LABEL and NUMBER)
+  ```
+
 - **LABEL**: Descriptor for the cue identifier (typically "cue", "shot", "setup", "take")
+  - Single lowercase word, no spaces
   - Pattern: One or more lowercase letters `[a-z]+`
   - Common labels: `cue`, `shot`, `setup`, `take`, `q`
   - **Consistency rule:** Each CUETYPE must use the same LABEL throughout a document
@@ -74,34 +79,34 @@ CUETYPE (LABEL NUMBER) TRIGGER: DESCRIPTION
   - **Pattern B (Decimal):** `[0-9]+\.[0-9]+`
     - Examples: `1.5`, `2.5`, `10.5`
     - Alternative practice: Insert 5.5 between 5 and 6
-  - **Pattern C (QLab-style prefixed):** `[A-Z][0-9]+[a-z]*`
+  - **Pattern C (Prefixed):** `[A-Z][0-9]+[a-z]*`
     - Examples: `A1`, `V3`, `A5a`, `L12b`
-    - Common in QLab workflows where cue type is embedded in the number
-    - The letter prefix is part of the number, not the CUETYPE
+    - Common in workflows where the cue type is embedded in the number identifier
   - **Note:** Choose ONE pattern per production. Mixing patterns within the same cue type may cause sorting confusion.
   - Combined patterns (e.g., `5.5a`) are not currently supported pending validation of real-world usage.
 
 - **TRIGGER** _(optional)_: When/how the cue is triggered
-  - Keywords: `on`, `after`, `with`
-  - Formats:
-    - `on "dialogue"` - Triggers on specific spoken words (**quotes required**)
-    - `after 3s` - Triggers after a time delay
-    - `with action` - Triggers simultaneously with an action
+  - Composed of two parts, separated by a single space: a **keyword** followed by a **value**
+  - **Keyword**: a single lowercase word. Standard keywords are `on`, `after`, `with` — custom keywords are permitted for domain-specific workflows
+  - **Value**: depends on the keyword
+    - Dialogue: quoted string, e.g. `on "Juliet"` (**quotes required**)
+    - Time delay: numeric value with units, e.g. `after 3s`
+    - Action: free-form text, e.g. `with door slam`
   - If omitted, cue trigger is implicit from context
-  - Examples:
-    - `on "Juliet"` - Trigger when actor says "Juliet"
-    - `after 2s` - Trigger 2 seconds after previous cue/action
-    - `with door slam` - Trigger simultaneously with door slam
   - **Important:** Dialogue triggers MUST use quotes to avoid ambiguity with descriptions
+
+- **METADATA** _(optional)_: Technical implementation details in square brackets, immediately before the colon. See [Metadata](#metadata-optional-technical-details) section for full reference.
+  - Format: `[key=value, key2=value2]`
+  - Example: `[fade=3s, level=80%]`
 
 - **DESCRIPTION**: Human-readable description of the cue action
   - Free-form text
   - Should describe what happens, not technical implementation details
   - Keep concise but clear
 
-**Examples:**
+#### Examples
 
-```
+```cuescript
 # Theatre (using "cue")
 SQ (cue 5): Door slams shut
 LX (cue 12a) on "Juliet": Fade to blackout
@@ -126,24 +131,45 @@ SOUND (take 3): Dialogue recording
 
 # Invalid - inconsistent within same CUETYPE
 CAMERA (shot 1): Wide
-CAMERA (cue 2): Close    â† ERROR: CAMERA already uses "shot"
+CAMERA (cue 2): Close    ← ERROR: CAMERA already uses "shot"
 ```
 
 ---
 
 ## Metadata (Optional Technical Details)
 
-CueScript supports optional metadata for technical implementation. Metadata is added in square brackets before the colon:
+CueScript supports optional metadata for technical implementation. Metadata is added in square brackets immediately before the colon:
 
-```
+```cuescript
 CUETYPE (cue NUMBER) [key=value, key2=value2]: DESCRIPTION
 ```
 
+#### Syntax Rules
+
+- **Enclosed in square brackets** `[ ]`, placed immediately before the colon
+- **Key**: a single lowercase word — no spaces, no special characters (`[a-z]+`)
+- **Key-value separator**: `=` with no surrounding spaces
+- **Value**: see value rules below
+- **Multiple key-value pairs**: separated by a comma `,` — the comma is the required separator; a single space after the comma is optional but recommended for readability: `[fade=3s, level=80%]`
+- **Parsers MUST accept commas with or without trailing space**: `[fade=3s,level=80%]` and `[fade=3s, level=80%]` are both valid
+- **Custom keys are always allowed** — any production can define domain-specific metadata
+
+#### Value Rules
+
+| Value type                                         | Quotes   | Examples                                                             |
+| -------------------------------------------------- | -------- | -------------------------------------------------------------------- |
+| Numeric with units                                 | Never    | `fade=3s`, `level=80%`, `duration=2m`, `prewait=500ms`               |
+| Numeric (pure)                                     | Never    | `level=0.5`                                                          |
+| Simple string (single word, no special characters) | Optional | `fade=slow` or `fade="slow"`, `transition=cut` or `transition="cut"` |
+| String with spaces or special characters           | Required | `file="my sound.wav"`, `note="check with LD"`                        |
+
+**Case:** Keys must be lowercase (`[a-z]+`). Values preserve case as written — uppercase and mixed-case values are valid where domain conventions require them (e.g., `frame=CU`, `frame=MCU`, `target=Cam2`).
+
 ### Standard Metadata Keys
 
-CueScript defines common metadata keys that work across domains. **Custom keys are always allowed** - any production can define domain-specific metadata.
+CueScript defines common metadata keys that work across domains. **Custom keys are always allowed** — any production can define domain-specific metadata.
 
-**Universal Timing & Control:**
+#### Universal Timing & Control
 
 - `duration` - How long the cue takes to execute (e.g., `5s`, `2m`, `45s`)
 - `fade` - Fade/transition time (e.g., `3s`, `500ms`)
@@ -151,109 +177,122 @@ CueScript defines common metadata keys that work across domains. **Custom keys a
 - `postwait` - Delay after cue completes (e.g., `2s`)
 - `warn` - Advance warning time for coordination (e.g., `30s`, `2m`)
 
-**Common Technical Parameters:**
+#### Common Technical Parameters
 
 - `level` - Intensity/volume (e.g., `80%`, `0.5`, `-6dB`)
 - `file` - Media file reference (e.g., `"thunder.wav"`, `"intro.mp4"`)
-- `target` - Specific equipment/output (e.g., `"channel_5"`, `"cam2"`, `"speaker_left"`)
-- `source` - Input source (e.g., `"mic3"`, `"playback"`, `"laptop"`)
-- `type` - Variant or category (e.g., `"key"`, `"bounce"`, `"practical"`)
+- `target` - Specific equipment/output (e.g., `channel_5`, `cam2`, `speaker_left`)
+- `source` - Input source (e.g., `mic3`, `playback`, `laptop`)
+- `type` - Variant or category (e.g., `key`, `bounce`, `practical`)
 
-**Theatre-Specific Examples:**
+#### Theatre-Specific Examples
 
-- `curve` - Lighting fade curve (e.g., `"log"`, `"linear"`)
-- `intensity` - Light level (e.g., `"full"`, `"50%"`)
-- `position` - Followspot position (e.g., `"center_stage"`, `"downstage_left"`)
+- `curve` - Lighting fade curve (e.g., `log`, `linear`)
+- `intensity` - Light level (e.g., `full`, `50%`)
+- `position` - Followspot position (e.g., `center_stage`, `downstage_left`)
 
-**Film-Specific Examples:**
+#### Film-Specific Examples
 
-- `lens` - Camera lens (e.g., `"50mm"`, `"wide"`)
-- `angle` - Camera angle (e.g., `"low"`, `"high"`, `"dutch"`)
-- `frame` - Shot framing (e.g., `"CU"`, `"MCU"`, `"WS"`, `"ECU"`)
-- `movement` - Camera movement (e.g., `"tracking"`, `"dolly"`, `"handheld"`)
-- `plate` - VFX plate type (e.g., `"green"`, `"blue"`, `"clean"`)
-- `element` - VFX element (e.g., `"background"`, `"foreground"`)
+- `lens` - Camera lens (e.g., `50mm`, `wide`)
+- `angle` - Camera angle (e.g., `low`, `high`, `dutch`)
+- `frame` - Shot framing (e.g., `CU`, `MCU`, `WS`, `ECU`)
+- `movement` - Camera movement (e.g., `tracking`, `dolly`, `handheld`)
+- `plate` - VFX plate type (e.g., `green`, `blue`, `clean`)
+- `element` - VFX element (e.g., `background`, `foreground`)
 
-**Live Event/Broadcast-Specific Examples:**
+#### Live Event/Broadcast-Specific Examples
 
-- `transition` - Transition type (e.g., `"cut"`, `"dissolve"`, `"wipe"`)
-- `preset` - Equipment preset (e.g., `"wide_shot"`, `"single"`, `"panel"`)
-- `template` - Graphics template (e.g., `"lower_third"`, `"bug"`, `"full_screen"`)
-- `position` - Graphics position (e.g., `"lower_third"`, `"corner"`, `"center"`)
-- `compression` - Audio compression (e.g., `"light"`, `"medium"`, `"heavy"`)
-- `gate` - Audio gate threshold (e.g., `"-20dB"`)
+- `transition` - Transition type (e.g., `cut`, `dissolve`, `wipe`)
+- `preset` - Equipment preset (e.g., `wide_shot`, `single`, `panel`)
+- `template` - Graphics template (e.g., `lower_third`, `bug`, `full_screen`)
+- `position` - Graphics position (e.g., `lower_third`, `corner`, `center`)
+- `compression` - Audio compression (e.g., `light`, `medium`, `heavy`)
+- `gate` - Audio gate threshold (e.g., `-20dB`)
 
-**Documentation:**
+#### Documentation
 
-- `note` - Internal notes/reminders (not shown to operators in cue sheets)
+- `note` - Production note attached to the cue (e.g., `note="check with LD before show"`). Parsers MAY expose or suppress this value in exported output. To hide content from formatted output entirely, use Fountain's boneyard syntax `[[ ]]` — see [Notes (Hidden Cues)](#3-notes-hidden-cues).
 
 ### Format Rules
 
-**Time Values:**
+#### Time Values
 
 - **Units MUST be specified** for numeric values
 - **Valid units:** `s` (seconds), `m` (minutes), `ms` (milliseconds), `h` (hours)
-- **Descriptive values also valid:** `slow`, `fast`, `instant`
-- Examples: `fade=3s` âœ… `fade=slow` âœ… `fade=3` âŒ
+- **Descriptive values also valid:** `slow`, `fast`, `instant` (quotes optional)
+- Examples:
+  ```
+  → Valid   fade=3s
+  → Valid   fade=slow
+  → Valid   fade="slow"
+  → Invalid fade=3
+  ```
 
-**Level/Intensity Values:**
+#### Level/Intensity Values
 
 - **Percentage:** `80%`, `50%`
 - **Decimal:** `0.5`, `0.8`
 - **Decibels:** `-6dB`, `-3dB`
-- **Descriptive:** `full`, `half`, `dim`
+- **Descriptive:** `full`, `half`, `dim` (quotes optional)
 
-**File Paths:**
+#### String Values
 
-- Use quotes if filename contains spaces: `file="my sound.wav"`
-- No quotes needed for simple names: `file=thunder.wav`
+- Simple single-word values: quotes optional — `transition=cut` or `transition="cut"`
+- Values with spaces or special characters: quotes required — `file="my sound.wav"`
 
-**Boolean Values:**
+#### Boolean Values
 
 - Use `true`/`false` or just the key name for true
 - Examples: `loop=true`, `autofollow=false`
 
 ### Metadata Examples
 
-**Theatre:**
+TRIGGER and METADATA are independent and fully combinable. The examples below show metadata alone for clarity, but any cue may include both.
 
-```
+#### Theatre
+
+```cuescript
 LX (cue 5) [fade=3s]: Fade to blackout
+LX (cue 12) on "Juliet" [fade=3s]: Fade to blackout
 SQ (cue 2) [file="thunder.wav", level=-3dB]: Thunder crash
+SQ (cue 3) after 2s [file="thunder.wav", level=-3dB]: Thunder crash
 FLY (cue 1) [warn=2m, duration=30s]: Bring in chandelier
 SPOT (cue 7) [target=spot_1, level=80%]: Pick up JOHN
 ```
 
-**Film:**
+#### Film
 
-```
-CAMERA (cue 12) [lens=50mm, angle=low]: Close-up on actor
-LIGHT (cue 3) [type=key, direction=left, intensity=2k]: Key light
-SOUND (cue 2) [boom=overhead, wind=reduce]: Dialogue recording
+```cuescript
+CAMERA (setup 12) [lens=50mm, angle=low]: Close-up on actor
+CAMERA (setup 13) with dolly [lens=50mm, angle=low]: Push in on actor
+LIGHT (setup 3) [type=key, direction=left, intensity=2k]: Key light
+SOUND (take 2) [boom=overhead, wind=reduce]: Dialogue recording
 VFX (cue 8) [plate=green, element=background]: Composite shot
 ```
 
-**Live Events:**
+#### Live Events
 
-```
+```cuescript
 VIDEO (cue 3) [source=cam2, transition=cut]: Switch to speaker cam
+VIDEO (cue 4) with speaker entrance [source=cam2, transition=cut]: Switch to speaker cam
 AUDIO (cue 7) [fade=2s, level=-6dB]: Music under speech
 GRAPHICS (cue 1) [duration=8s, position=lower_third]: Guest name
 CAMERA (cue 5) [preset=wide, speed=slow]: Audience pan
 ```
 
-**Broadcast:**
+#### Broadcast
 
-```
+```cuescript
 PLAYBACK (cue 1) [file="package_intro.mp4", audio=stereo]: Roll intro
 CAMERA (cue 3) [transition=dissolve, duration=1s]: Dissolve to camera 2
+CAMERA (cue 4) on "and now" [transition=dissolve, duration=1s]: Dissolve to camera 2
 GRAPHICS (cue 4) [template=bug, position=corner]: Network logo
 AUDIO (cue 2) [source=mic3, gate=-20dB]: Talent microphone
 ```
 
-**Descriptive values also valid:**
+#### Descriptive values also valid
 
-```
+```cuescript
 LX (cue 12) [fade=slow, target=downstage]: Warm glow
 VIDEO (cue 8) [transition=fast]: Quick cut
 AUDIO (cue 3) [level=full]: Music at full volume
@@ -261,34 +300,34 @@ AUDIO (cue 3) [level=full]: Music at full volume
 
 ### Progressive Enhancement Workflow
 
-The power of optional metadata is that the same cue can evolve throughout production:
+TRIGGER and METADATA are both optional. A cue can start as a minimal placeholder and grow richer as production decisions are made.
 
-**Phase 1: Initial Writing/Planning**
+#### Phase 1: Initial Writing/Planning
 
+```cuescript
+LX (cue 5):
+CAMERA (cue 12):
 ```
-LX (cue 5): Fade to blackout
-CAMERA (cue 12): Close-up on actor's face
-```
 
-Just mark where cues happen. Readable by all stakeholders.
+Mark where cues happen, nothing more. Description may be left empty as a placeholder — parsers supporting authoring workflows MAY accept this form and SHOULD warn rather than error.
 
-**Phase 2: Rehearsal/Pre-Production Refinement**
+#### Phase 2: Rehearsal/Pre-Production Refinement
 
-```
-LX (cue 5) [fade=3s]: Fade to blackout
+```cuescript
+LX (cue 5) on "Juliet": Fade to blackout
 CAMERA (cue 12) [lens=50mm]: Close-up on actor's face
 ```
 
-Add timing and technical decisions as they're made. Still readable.
+Add triggers (when cues fire) and initial technical decisions as they emerge. Still fully readable.
 
-**Phase 3: Technical Preparation/Production**
+#### Phase 3: Technical Preparation/Production
 
-```
-LX (cue 5) [fade=3s, warn=30s, target=all]: Fade to blackout
+```cuescript
+LX (cue 5) on "Juliet" [fade=3s, warn=30s, target=all]: Fade to blackout
 CAMERA (cue 12) [lens=50mm, angle=low, frame=CU]: Close-up on actor's face
 ```
 
-Production team adds implementation details. Export-ready for control systems.
+Production team adds full implementation details. Export-ready for control systems.
 
 **Key principle:** A cue is valid at every stage. Add detail when needed, not before.
 
@@ -296,36 +335,36 @@ Production team adds implementation details. Export-ready for control systems.
 
 CueScript uses the `warn` metadata to indicate when production coordinators should give advance notice to operators:
 
-```
+```cuescript
 LX (cue 5) on "Juliet" [warn=30s, fade=3s]: Fade to blackout
 VIDEO (cue 12) [warn=1m]: Roll pre-recorded package
 CAMERA (cue 8) [warn=15s]: Crane move to overhead
 ```
 
-**How it works:**
+#### How it works
 
 - `warn=30s` tells parser to generate an advance notice 30 seconds before the cue
 - No `warn` metadata = no advance notice needed (simple cues can execute immediately)
 - Parser calculates placement based on script timing and trigger point
 
-**Example - What a parser might generate:**
+#### Example — What a parser might generate
 
-**Source:**
+##### Source
 
-```
+```cuescript
 LX (cue 5) on "Juliet" [warn=30s, fade=3s]: Fade to blackout
 ```
 
-**Generated calling script view:**
+##### Generated calling script view
 
-```
+```text
 [~30 seconds before "Juliet" line]
-â”Œâ”€ STANDBY: LX 5
-â”‚
-â”‚  ... script continues ...
-â”‚
-â””â”€ [On "Juliet"]
-   LX (cue 5) GO â†’ Fade to blackout (3s fade)
+┌─ STANDBY: LX 5
+│
+│  ... script continues ...
+│
+└─ [On "Juliet"]
+   LX (cue 5) GO → Fade to blackout (3s fade)
 ```
 
 **Not every cue needs advance warning.** Simple cues (like quick audio transitions or camera cuts) may not require `warn` metadata. Complex cues (like crane moves, scenic automation, or multi-source video setups) typically benefit from longer advance warnings.
@@ -338,7 +377,7 @@ LX (cue 5) on "Juliet" [warn=30s, fade=3s]: Fade to blackout
 
 Below are common conventions from different production contexts. These are suggestions, not requirements.
 
-### Theatre Productions Commonly Use:
+### Theatre Productions Commonly Use
 
 | Type    | Full Name          | Description                          | Example                             |
 | ------- | ------------------ | ------------------------------------ | ----------------------------------- |
@@ -354,20 +393,16 @@ Below are common conventions from different production contexts. These are sugge
 | `VIDEO` | Video              | Video playback                       | `VIDEO (cue 3): Display countdown`  |
 | `PROJ`  | Projection         | Projection mapping                   | `PROJ (cue 5): Show title card`     |
 
-### Film Productions Commonly Use:
+### Film Productions Commonly Use
 
-| Type       | Full Name      | Description               | Example                                  |
-| ---------- | -------------- | ------------------------- | ---------------------------------------- |
-| `CAMERA`   | Camera         | Camera setup and movement | `CAMERA (cue 5): Dolly in on actor`      |
-| `SHOT`     | Shot           | Individual shot notation  | `SHOT (cue 3a): Close-up, low angle`     |
-| `LIGHT`    | Lighting       | Lighting setup            | `LIGHT (cue 2): Natural window light`    |
-| `SOUND`    | Sound          | Sound recording notes     | `SOUND (cue 1): Boom from above`         |
-| `VFX`      | Visual Effects | VFX elements and plates   | `VFX (cue 12): Green screen background`  |
-| `STUNT`    | Stunt          | Stunt coordination        | `STUNT (cue 1): Car crash sequence`      |
-| `MAKEUP`   | Makeup         | Makeup and prosthetics    | `MAKEUP (cue 3): Blood effect applied`   |
-| `WARDROBE` | Wardrobe       | Costume changes           | `WARDROBE (cue 2): Hero switches jacket` |
+| Type     | Full Name      | Description               | Example                                 |
+| -------- | -------------- | ------------------------- | --------------------------------------- |
+| `CAMERA` | Camera         | Camera setup and movement | `CAMERA (setup 2): Dolly in on actor`   |
+| `LIGHT`  | Lighting       | Lighting setup            | `LIGHT (setup 2): Natural window light` |
+| `SOUND`  | Sound          | Sound recording notes     | `SOUND (take 1): Boom from above`       |
+| `VFX`    | Visual Effects | VFX elements and plates   | `VFX (cue 12): Green screen background` |
 
-### Live Events Commonly Use:
+### Live Events Commonly Use
 
 | Type       | Full Name | Description                  | Example                                |
 | ---------- | --------- | ---------------------------- | -------------------------------------- |
@@ -375,22 +410,21 @@ Below are common conventions from different production contexts. These are sugge
 | `CAMERA`   | Camera    | Camera selection             | `CAMERA (cue 2): Isolate speaker`      |
 | `AUDIO`    | Audio     | Audio mixing and playback    | `AUDIO (cue 7): Mics up for panel`     |
 | `GRAPHICS` | Graphics  | Lower thirds, titles         | `GRAPHICS (cue 1): Display guest name` |
-| `LIGHTS`   | Lighting  | Stage lighting cues          | `LIGHTS (cue 4): Follow spot on host`  |
+| `LIGHT`    | Lighting  | Stage lighting cues          | `LIGHT (cue 4): Follow spot on host`   |
 | `PLAYBACK` | Playback  | Media playback               | `PLAYBACK (cue 3): Roll intro video`   |
 
-### Broadcast/Streaming Commonly Use:
+### Broadcast/Streaming Commonly Use
 
-| Type         | Full Name  | Description              | Example                                |
-| ------------ | ---------- | ------------------------ | -------------------------------------- |
-| `CAMERA`     | Camera     | Camera switching         | `CAMERA (cue 8): Cut to camera 2`      |
-| `GRAPHICS`   | Graphics   | On-screen graphics       | `GRAPHICS (cue 3): Lower third - name` |
-| `AUDIO`      | Audio      | Audio levels and sources | `AUDIO (cue 5): Fade music bed`        |
-| `PLAYBACK`   | Playback   | Pre-recorded content     | `PLAYBACK (cue 1): Roll package`       |
-| `TRANSITION` | Transition | Wipes, dissolves         | `TRANSITION (cue 2): Fade to black`    |
+| Type       | Full Name | Description              | Example                                |
+| ---------- | --------- | ------------------------ | -------------------------------------- |
+| `CAMERA`   | Camera    | Camera switching         | `CAMERA (cue 8): Cut to camera 2`      |
+| `GRAPHICS` | Graphics  | On-screen graphics       | `GRAPHICS (cue 3): Lower third - name` |
+| `AUDIO`    | Audio     | Audio levels and sources | `AUDIO (cue 5): Fade music bed`        |
+| `PLAYBACK` | Playback  | Pre-recorded content     | `PLAYBACK (cue 1): Roll package`       |
 
 ### Custom Cue Types
 
-Productions can define any cue type that fits their workflow. Examples:
+Custom cue types allow creative and extended uses of the format beyond standard operational workflows — from department-specific coordination to director's annotations. Productions can define any cue type that fits their needs.
 
 - `HAZE` - Atmospheric effects
 - `PYRO` - Pyrotechnic effects
@@ -400,24 +434,27 @@ Productions can define any cue type that fits their workflow. Examples:
 - `PRAC` - Practical effects
 - `TALENT` - Talent/actor direction
 - `CREW` - Crew position changes
+- `SHOT` - Individual shot notation (film)
+- `STUNT` - Stunt coordination (film)
+- `MAKEUP` - Makeup and prosthetics (film)
+- `WARDROBE` - Costume changes (film)
+- `TRANSITION` - Wipes, dissolves (broadcast)
 
-**The format is completely open** - use whatever cue types make sense for your production.
+**The format is completely open** — use whatever cue types make sense for your production.
 
 ---
 
 ## Software Compatibility
 
-CueScript is designed to work with industry-standard screenplay software, including both Fountain-based editors and Final Draft.
+CueScript documents are plain UTF-8 text files and can be opened and edited in any text editor, word processor, or screenplay application. In Fountain-compatible applications, cues render as readable action lines without modification. CueScript-aware tools add the ability to recognize and process the technical cue notation.
 
-**Important:** CueScript documents are valid Fountain documents. Any Fountain-compatible application can open and edit them. CueScript-aware tools add the ability to _recognize and process_ the technical cue notation, but the files remain fully compatible with standard Fountain parsers.
+### Fountain Compatibility Patterns
 
-### Fountain Integration
-
-CueScript leverages three Fountain syntax features:
+CueScript cues can be written using three Fountain constructs to control how they appear in Fountain-compatible applications.
 
 #### 1. Action Lines (Visible Cues)
 
-CueScript cues are written as standard Fountain action lines. Any Fountain parser will see them as regular action elements:
+In a Fountain parser, CueScript cues that appear as plain lines are treated as action lines and rendered as readable text:
 
 ```fountain
 John walks to the door.
@@ -455,50 +492,17 @@ SQ (cue 5): Door slams shut
 
 **Result:** `cue 1` is parsed by CueScript tools but invisible in formatted screenplay. `cue 5` is visible to all readers.
 
-**Use for:**
+##### Use for
 
 - Atmospheric/background cues that don't need to be in the reading script
 - Technical notes for operators
 - Cues that clutter the reading experience
 
-### Final Draft Compatibility
+### Final Draft — A Practical Example
 
-CueScript works seamlessly with Final Draft, the industry-standard screenwriting software, through multiple workflows.
+Final Draft is widely used in the industry, so CueScript compatibility was tested during the development of this specification. Writing cues as **Action elements** worked without issues and the syntax was preserved correctly. This is documented here as a practical example — not as an officially supported integration.
 
-#### Basic Workflow (Recommended for Most Users)
-
-Write CueScript cues as **Action elements** in Final Draft using standard CueScript syntax:
-
-**In Final Draft:**
-
-1. Create an Action element (press Enter after dialogue, or use Format menu)
-2. Type your cue using CueScript syntax: `SQ (cue 5): Door slams shut`
-3. Continue writing your script normally
-4. When ready to manage cues, export as **"Text with Layout"** (.txt)
-5. Import the exported text file into CueScript-compatible software
-
-**Example in Final Draft:**
-
-```
-INT. MANSION - NIGHT
-
-John enters cautiously.
-
-[Action Element]
-SQ (cue 2): Distant thunder
-
-He approaches the door.
-
-[Action Element]
-SQ (cue 3): Door slams shut
-
-[Action Element]
-LX (cue 4): Lights flicker
-```
-
-**What exports:**
-
-```
+```fountain
 INT. MANSION - NIGHT
 
 John enters cautiously.
@@ -512,107 +516,9 @@ SQ (cue 3): Door slams shut
 LX (cue 4): Lights flicker
 ```
 
-The exported text preserves CueScript syntax perfectly and can be parsed by any CueScript-compatible tool.
+CueScript-aware tools that read the `.fdx` format natively (such as QBook) can parse cues directly from Final Draft files without any intermediate export step.
 
-**Notes for Final Draft Users:**
-
-- Cues appear as regular action lines in your script
-- They're visible to all readers (directors, actors, crew)
-- For hidden cues, use Final Draft's Notes feature (Insert â†’ Note), then write CueScript syntax inside the note
-- Final Draft notes export with `[[double brackets]]`, which matches Fountain's hidden note syntax
-
-#### Fountain Round-Trip Workflow
-
-For users who work in both Final Draft and Fountain-based editors:
-
-**Final Draft â†’ Fountain:**
-
-1. Export Final Draft script as `.fdx` (File â†’ Save As â†’ Final Draft 8-13 (.fdx))
-2. Convert to Fountain using:
-   - **Highland** (Mac) - Import FDX, export as Fountain
-   - **Fade In** - Can open FDX and save as Fountain
-   - **Online converters** - Various web-based tools
-3. Edit in Fountain editor (can use hidden `[[cues]]` syntax)
-4. Import into CueScript tools
-
-**Fountain â†’ Final Draft:**
-
-1. Convert Fountain to FDX using the same tools
-2. Import FDX into Final Draft
-3. CueScript cues preserved as action elements
-4. Continue editing in Final Draft
-
-**Benefits of this workflow:**
-
-- Full access to Fountain's hidden cue syntax `[[...]]`
-- Work in whichever app suits the task
-- No data loss between formats
-- Leverage both ecosystems
-
-#### Custom Elements Workflow (Advanced)
-
-Power users who want visual distinction of cue types in Final Draft can create custom paragraph elements.
-
-**Setup (one time per computer):**
-
-1. In Final Draft: Format â†’ Elements â†’ New Element
-2. Create custom elements for each cue type you use:
-   - Name: "Sound Cue" (or "SQ")
-   - Based on: Action
-   - Customize appearance (color, font, etc.)
-3. Repeat for Light Cue, Music Cue, etc.
-4. Save as template for future projects
-
-**Using Custom Elements:**
-
-1. Type your cue: `SQ (cue 5): Door slams shut`
-2. Apply custom element formatting
-3. Cues visually distinct from regular action
-4. Export as "Text with Layout" - syntax preserved
-
-**Benefits:**
-
-- Visual distinction in Final Draft
-- Easier to scan for cues while writing
-- Professional appearance
-- Still exports as valid CueScript syntax
-
-**Trade-offs:**
-
-- Requires initial setup or template installation
-- Custom elements don't transfer when sharing raw .fdx files
-- More setup than basic workflow
-
-#### Recommendations by User Type
-
-**Production Coordinators & Technical Directors:**
-
-- Use **Basic Workflow** - simple, works everywhere
-- Or use **Fountain editors** directly (Highland, Slugline, etc.)
-
-**Directors & Writers:**
-
-- Use **Basic Workflow** in Final Draft
-- Keep cues visible in script during planning/rehearsal
-- Let production team add technical details later
-
-**Technical Teams:**
-
-- Use **Fountain editors** for maximum control
-- Or import from Final Draft exports
-- Add metadata during technical preparation phase
-
-**Film Productions:**
-
-- Use **Custom Elements Workflow** to distinguish camera, lighting, VFX cues
-- Visual coding helps during script breakdown
-- Export preserves all CueScript syntax
-
-**Live Event/Broadcast Teams:**
-
-- **Basic Workflow** often sufficient for rundowns
-- Hidden cues `[[ ]]` for technical notes not needed by talent
-- Metadata crucial for video switching and audio routing
+This was also tested by exporting from Final Draft as plain text and opening the result in QBook — CueScript syntax was preserved correctly.
 
 ---
 
@@ -772,7 +678,7 @@ CAMERA (cue 9) [source=cam1]: Cut to anchor
 
 Cues are typically numbered sequentially within each type:
 
-```
+```cuescript
 SQ (cue 1): ...
 SQ (cue 2): ...
 SQ (cue 3): ...
@@ -784,7 +690,7 @@ When cues are added during rehearsals/production, choose one of these approaches
 
 **Method A: Letter Suffixes** (Traditional)
 
-```
+```cuescript
 SQ (cue 5): Original cue
 SQ (cue 5a): Added during tech rehearsal
 SQ (cue 5b): Added later
@@ -795,7 +701,7 @@ SQ (cue 6): Next original cue
 
 **Method B: Decimal Notation** (Alternative)
 
-```
+```cuescript
 SQ (cue 5): Original cue
 SQ (cue 5.5): Added during tech rehearsal
 SQ (cue 5.7): Added later
@@ -810,9 +716,9 @@ SQ (cue 6): Next original cue
 
 Each cue type maintains its own numbering sequence:
 
-```
+```cuescript
 SQ (cue 1): ...
-LX (cue 1): ...  â† Different type, can reuse number
+LX (cue 1): ...  ← Different type, can reuse number
 SQ (cue 2): ...
 LX (cue 2): ...
 ```
@@ -821,45 +727,70 @@ This is standard practice - "LX 5" and "SQ 5" are different cues.
 
 ---
 
----
-
 ## Parser Requirements
 
 A CueScript-compliant parser MUST:
 
-1. **Recognize the basic pattern:** `CUETYPE (LABEL NUMBER) [TRIGGER] [metadata]: DESCRIPTION`
-2. **Support flexible labels:** Recognize any lowercase label (pattern `[a-z]+`)
-3. **Support cue numbers:** Support both numbering patterns:
-   - Pattern A: `[0-9]+[a-z]*` (letter suffix: `1`, `5a`, `23b`)
-   - Pattern B: `[0-9]+\.[0-9]+` (decimal: `1.5`, `5.5`)
-4. **Recognize standard cue types:** All abbreviated forms listed above
-5. **Handle optional triggers:** Parse `on "text"`, `after 3s`, `with action` syntax
-6. **Handle optional metadata:** Parse `[key=value]` format in square brackets
-7. **Validate time units:** Require units (s, m, ms, h) for numeric time values
+1. **Recognize the basic pattern:** `CUETYPE (LABEL NUMBER) TRIGGER [METADATA]: DESCRIPTION`
+
+   Formal patterns for each component:
+   - **CUETYPE:** `[A-Z]+` — one or more uppercase letters, no spaces
+   - **`(`** — opening parenthesis, optionally preceded by whitespace
+   - **LABEL:** `[a-z]+` — one or more lowercase letters, single word
+   - **` `** — at least one space between LABEL and NUMBER (required)
+   - **NUMBER:** one of:
+     - Pattern A (letter suffix): `[0-9]+[a-z]*` (e.g., `1`, `5a`, `23b`)
+     - Pattern B (decimal): `[0-9]+\.[0-9]+` (e.g., `1.5`, `5.5`)
+     - Pattern C (Prefixed): `[A-Z][0-9]+[a-z]*` (e.g., `A1`, `V3`, `A5a`)
+   - **`)`** — closing parenthesis
+   - **TRIGGER** _(optional)_: a single lowercase keyword (`[a-z]+`) followed by a single space and a value. Value types:
+     - **Quoted string** `"[^"]*"` — required when value is dialogue text (e.g., `on "Juliet"`)
+     - **Numeric with units** `[0-9]+(\.[0-9]+)?(s|m|ms|h)` — for time-based values (e.g., `after 3s`)
+     - **Free-form text** — any text not containing `[` or `:` (e.g., `with door slam`)
+     - Value MUST NOT be empty — a keyword without a value is invalid
+   - **`[metadata]`** _(optional)_: `\[key=value(,\s*key=value)*\]`
+   - **`:`** — colon separator, optionally surrounded by whitespace
+   - **DESCRIPTION:** non-empty free-form text (required for a formally valid cue)
+
+   Parsers MUST be flexible with whitespace between components, except inside `(LABEL NUMBER)` where at least one space between LABEL and NUMBER is required.
+
+2. **Support flexible labels:** Recognize any lowercase label (`[a-z]+`) — not limited to `cue`, `shot`, etc.
+3. **Support all three cue number patterns:** Pattern A, B, and C as defined above
+4. **Recognize cue types:** Any uppercase identifier (`[A-Z]+`) is a valid CUETYPE
+5. **Handle optional triggers:** Parse any single lowercase keyword (`[a-z]+`) followed by a space and a value. Value types:
+   - Quoted string `"[^"]*"` — for dialogue triggers
+   - Numeric with units `[0-9]+(\.[0-9]+)?(s|m|ms|h)` — for time-based triggers
+   - Free-form text (any text not containing `[` or `:`) — for action triggers
+   - Standard keywords are `on`, `after`, `with` — custom keywords MUST also be accepted
+   - A trigger keyword without a value is invalid
+6. **Handle optional metadata:** Parse `[key=value]` pairs in square brackets, immediately before the colon
+   - Multiple pairs are separated by a comma: `[key=value, key2=value2]`
+   - Parsers MUST accept commas with or without trailing space
+   - Keys: `[a-z]+` — single lowercase word
+   - `=` separator with no surrounding spaces
+   - Values follow the rules defined in the Metadata section
+7. **Validate time units:** Require units (s, m, ms, h) for numeric time values in metadata
 8. **Handle Fountain notes:** Parse cues within `[[ ]]` as hidden cues
-9. **Preserve Fountain compatibility:** Not break existing Fountain parsing
-10. **Case sensitivity:** CUETYPE must be uppercase, labels lowercase, cue numbers preserve case
-11. **Handle plain text exports:** Parse text from both Fountain and Final Draft sources
+9. **Preserve Fountain compatibility:** Not interfere with standard Fountain parsing
+10. **Case sensitivity:** CUETYPE must be uppercase; labels must be lowercase; cue number case must be preserved as written
+11. **Parse from plain text:** Accept any plain text input conforming to CueScript syntax, regardless of origin
 
 A CueScript-compliant parser SHOULD:
 
-1. **Detect custom cue types:** Recognize any uppercase word following the pattern
-2. **Warn on duplicate numbers:** Flag duplicate cue numbers within the same type
-3. **Warn on label inconsistency:** Flag when same CUETYPE uses different labels (e.g., `CAMERA (shot 1)` then `CAMERA (cue 2)`)
-4. **Support common alternatives:** Recognize established abbreviation variants (LX/LIGHT, SQ/SOUND, MQ/MUSIC)
-5. **Extract metadata:** Document title, acts, scenes from Fountain structure
-6. **Validate metadata:** Check that time values include units
-7. **Generate coordination cues:** Calculate advance warning timing from `warn` metadata
-8. **Warn on mixed numbering:** Flag use of both letter and decimal insertions in same cue type (e.g., `5a` and `5.5` for the same CUETYPE)
+1. **Warn on duplicate numbers:** Flag duplicate cue numbers within the same CUETYPE
+2. **Warn on label inconsistency:** Flag when same CUETYPE uses different labels (e.g., `CAMERA (shot 1)` then `CAMERA (cue 2)`)
+3. **Warn on mixed CUETYPE conventions:** Flag when a script uses both members of a known conventional pair (e.g., both `LX` and `LIGHT`, or both `SQ` and `SOUND`) — these typically indicate the same department and mixing them is likely unintentional
+4. **Extract Fountain structure:** Document title, acts, scenes from Fountain syntax
+5. **Generate coordination cues:** Calculate advance warning timing from `warn` metadata
+6. **Warn on mixed numbering:** Flag use of both letter and decimal patterns in same CUETYPE (e.g., `LX (cue 5a)` and `LX (cue 6.5)`)
 
 A CueScript-compliant parser MAY:
 
-1. **Suggest standardization:** Offer to normalize cue type naming
-2. **Warn on gaps:** Identify missing numbers in sequences (optional - gaps are valid)
-3. **Auto-number:** Suggest cue numbers for unnumbered technical actions
-4. **Cross-reference:** Link repeated cue references in dialogue/action
-5. **Export to production systems:** Generate cue sheets, calling scripts, control system workspaces (QLab, video switchers, etc.)
-6. **Domain-specific features:** Implement workflows specific to theatre, film, broadcast, etc.
+1. **Suggest standardization:** Offer to normalize CUETYPE naming conventions
+2. **Warn on gaps:** Identify missing numbers in sequences (gaps are valid — this is informational only)
+3. **Suggest cue numbers:** Propose numbers for placeholder cues (cues without description). MUST NOT assign numbers silently without user interaction
+4. **Export to production systems:** Generate cue sheets, calling scripts, or control system workspaces (e.g., QLab)
+5. **Domain-specific features:** Implement workflows specific to theatre, film, broadcast, or other production contexts
 
 ---
 
@@ -873,7 +804,7 @@ When dialogue or action mentions a cue without defining it, don't parse as a cue
 STAGE MANAGER
 Stand by for sound cue 5.
 
-â† Not parsed as a cue (missing colon and description)
+← Not parsed as a cue (missing colon and description)
 ```
 
 ### Mixed Case
@@ -881,22 +812,22 @@ Stand by for sound cue 5.
 Only uppercase CUETYPE is valid:
 
 ```fountain
-sq (cue 1): Door slams      â† Invalid (not uppercase)
-SQ (cue 1): Door slams      â† Valid
-Sq (cue 1): Door slams      â† Invalid (mixed case)
+sq (cue 1): Door slams      ← Invalid (not uppercase)
+SQ (cue 1): Door slams      ← Valid
+Sq (cue 1): Door slams      ← Invalid (mixed case)
 ```
 
 ### Missing Components
 
-Core components required (type, number, description), triggers and metadata optional:
+CUETYPE, LABEL, and NUMBER are always required. DESCRIPTION is required for a formally valid cue — parsers MAY accept a missing description as a placeholder during authoring and SHOULD warn rather than error. TRIGGER and metadata are always optional:
 
 ```fountain
-SQ: Door slams              â† Invalid (missing cue number)
-SQ (cue 5)                  â† Invalid (missing description)
-(cue 5): Door slams         â† Invalid (missing cue type)
-SQ (cue 5): Door slams      â† Valid (minimal form)
-SQ (cue 5) on "exit": Door  â† Valid (with trigger)
-SQ (cue 5) [level=-3dB]: Door â† Valid (with metadata)
+SQ: Door slams              ← Invalid (missing cue number)
+(cue 5): Door slams         ← Invalid (missing cue type)
+SQ (cue 5): Door slams      ← Valid (minimal form)
+SQ (cue 5):                 ← Formally invalid — parsers MAY accept as placeholder
+SQ (cue 5) on "exit": Door  ← Valid (with trigger)
+SQ (cue 5) [level=-3dB]: Door ← Valid (with metadata)
 ```
 
 ### Whitespace
@@ -904,10 +835,20 @@ SQ (cue 5) [level=-3dB]: Door â† Valid (with metadata)
 Parsers should be flexible with whitespace:
 
 ```fountain
-SQ (cue 5): Door slams      â† Valid
-SQ(cue 5): Door slams       â† Valid (no space before parenthesis)
-SQ (cue  5): Door slams     â† Valid (extra space in number)
-SQ  (cue 5):  Door slams    â† Valid (extra spaces)
+SQ (cue 5): Door slams      ← Valid
+SQ(cue 5): Door slams       ← Valid (no space before parenthesis)
+SQ (cue  5): Door slams     ← Valid (extra space between LABEL and NUMBER)
+SQ  (cue 5):  Door slams    ← Valid (extra spaces between components)
+```
+
+### Line Breaks
+
+A cue must occupy exactly one line. Multi-line cues are invalid:
+
+```fountain
+SQ (cue 5): Door slams      ← Valid
+SQ (cue 5):                 ← Invalid (description on next line)
+  Door slams
 ```
 
 ### Trigger Formats
@@ -915,18 +856,26 @@ SQ  (cue 5):  Door slams    â† Valid (extra spaces)
 All these trigger formats are valid:
 
 ```fountain
-LX (cue 5) on "Juliet": Fade    â† Dialogue trigger (quotes required)
-LX (cue 5) after 3s: Fade       â† Time delay
-LX (cue 5) with entrance: Fade  â† Action trigger
-LX (cue 5): Fade                â† No trigger (implicit)
+LX (cue 5) on "Juliet": Fade      ← Dialogue trigger (quotes required)
+LX (cue 5) after 3s: Fade         ← Time delay
+LX (cue 5) with entrance: Fade    ← Action trigger
+LX (cue 5) before curtain: Fade   ← Custom keyword (valid)
+LX (cue 5): Fade                  ← No trigger (implicit)
 ```
 
-**Important:** Dialogue triggers (using `on`) MUST use quotes to distinguish them from descriptions that might start with "on". For example:
+Invalid trigger forms:
 
+```fountain
+LX (cue 5) on: Fade               ← Invalid (keyword without value)
+LX (cue 5) after: Fade            ← Invalid (keyword without value)
 ```
-âœ… LX (cue 5) on "stage": Fade    â† Trigger on the word "stage"
-âŒ LX (cue 5) on stage: Fade      â† Ambiguous - is "on stage" the description?
-âœ… LX (cue 5): Fade on stage      â† Clear - "on stage" is part of description
+
+**Important:** Dialogue triggers MUST use quotes to distinguish them from descriptions that might start with the same word. For example:
+
+```text
+→ Valid   LX (cue 5) on "stage": Fade    ← Trigger on the word "stage"
+→ Invalid LX (cue 5) on stage: Fade      ← Ambiguous - is "on stage" the description?
+→ Valid   LX (cue 5): Fade on stage      ← Clear - "on stage" is part of description
 ```
 
 ---
@@ -935,26 +884,32 @@ LX (cue 5): Fade                â† No trigger (implicit)
 
 ### Required
 
-- Cue type must be present and uppercase
-- Label must be present and lowercase letters only
-- Cue number must match one of these patterns:
-  - Letter suffix: `[0-9]+[a-z]*` (e.g., `1`, `5a`, `23b`)
-  - Decimal: `[0-9]+\.[0-9]+` (e.g., `1.5`, `5.5`)
-- Description must be present (non-empty after colon)
-- Time values in metadata MUST include units (s, m, ms, h)
-- Dialogue triggers MUST use quotes: `on "word"` not `on word`
+- **CUETYPE** must be present, uppercase letters only (`[A-Z]+`), single word
+- **LABEL** must be present, lowercase letters only (`[a-z]+`), single word
+- **Space** between LABEL and NUMBER is required (at least one)
+- **NUMBER** must match one of these patterns:
+  - Pattern A (letter suffix): `[0-9]+[a-z]*` (e.g., `1`, `5a`, `23b`)
+  - Pattern B (decimal): `[0-9]+\.[0-9]+` (e.g., `1.5`, `5.5`)
+  - Pattern C (prefixed): `[A-Z][0-9]+[a-z]*` (e.g., `A1`, `V3`, `A5a`)
+- **DESCRIPTION** must be present and non-empty after the colon for a formally valid cue
+- **Trigger value** must not be empty — a trigger keyword without a value is invalid (e.g., `on:` is invalid)
+- **Dialogue trigger values** must use quotes: `on "word"` not `on word`
+- **Metadata keys** must be lowercase letters only (`[a-z]+`), single word
+- **Metadata key-value separator** must be `=` with no surrounding spaces
+- **Metadata pairs** must be separated by a comma; space after comma is optional
+- **Time values** in metadata MUST include units (`s`, `m`, `ms`, `h`)
 
 ### Recommended Warnings
 
 - **Label consistency:** Each CUETYPE should use the same label throughout the document
   - Example: If `CAMERA (shot 1)` is used, `CAMERA (cue 2)` should trigger a warning
-- **Numbering consistency:** Using both letter and decimal patterns in same cue type
-  - Example: `LX (cue 5a)` and `LX (cue 6.5)` should trigger a warning
-- Duplicate cue numbers within same type
-- Mixing abbreviations (e.g., using both LX and LIGHT in same script)
-- Very long descriptions (>150 characters - might indicate error)
-- Unknown cue types (not in standard list) - informational only, not an error
-- Time values without units in metadata
+- **Numbering consistency:** Mixing patterns within the same CUETYPE
+  - Example: `LX (cue 5a)` and `LX (cue 6.5)` should trigger a warning (mixing Pattern A and B)
+  - Example: `LX (cue 5)` and `LX (cue A5)` should trigger a warning (mixing Pattern A and C)
+- **Duplicate cue numbers** within same CUETYPE
+- **Mixed CUETYPE conventions:** Script uses both members of a known conventional pair (e.g., both `LX` and `LIGHT`, or both `SQ` and `SOUND`) — likely unintentional
+- **Missing description** — cue has a colon but no content after it (e.g., `LX (cue 5):`). Parsers MAY accept this as a valid placeholder during authoring and SHOULD warn rather than error
+- **Unusually long description** — may indicate that technical details better suited for metadata have been included in the description
 
 ### Not Required
 
@@ -981,12 +936,14 @@ LX (cue 5): Fade                â† No trigger (implicit)
 - Describe the effect or result, not the technical implementation
 - Use terminology your production team understands
 - Save technical details for metadata
+- If you find yourself embedding numbers in CUETYPE names (e.g., `CAM1`, `CAM2`, `MIC1`, `MIC2`), consider which problem you're solving:
+  - If the number identifies **which instance** (which camera, which mic): use metadata — `CAMERA (setup 1) [target=cam1]`
+  - If the number identifies **sequence position**: use the NUMBER component — `CAM (setup 1)`, `CAM (setup 2)`
 
 ### Organization
 
 - Use hidden cues `[[ ]]` for technical notes that shouldn't clutter the reading script
 - Use visible cues for actions that all stakeholders need to see
-- Group related cues near each other in the script
 
 ### Production Process
 
@@ -1004,25 +961,33 @@ LX (cue 5): Fade                â† No trigger (implicit)
 
 ### Domain-Specific Tips
 
-**Theatre:**
+#### Theatre Productions
 
 - Use `warn` for complex cues (fly, automation, scene changes)
 - Hidden cues for continuous/atmospheric elements
 - Visible cues for actions that affect actors
 
-**Film:**
+#### Film Productions
 
-- Camera and lighting setups often need detailed metadata
-- Cue numbers can reuse with revision letters (cue 1, cue 1a for additional takes)
-- VFX cues should note plates, elements, compositing needs
+Film productions think in terms of **setups** rather than cues. CueScript's flexible LABEL supports this naturally — using `setup` instead of `cue` speaks the language of the set:
 
-**Live Events:**
+```cuescript
+CAMERA (setup 1): Wide shot — John at door
+CAMERA (setup 2): Close-up — John's face
+CAMERA (setup 2a): Close-up variant — tighter framing
+LIGHT (setup 1) [type=key, direction=left, intensity=2k]: Key light
+LIGHT (setup 1a) [type=key, direction=left, intensity=1.5k]: Adjusted for coverage
+```
+
+Letter suffixes handle setup variants without disrupting the sequence. Metadata carries the technical details that DPs and gaffers need.
+
+#### Live Events Productions
 
 - Video and camera cues benefit from transition metadata
 - Audio cues should specify sources and routing
 - Graphics cues should note templates and durations
 
-**Broadcast:**
+#### Broadcast Productions
 
 - Playback cues need file references and cue points
 - Camera transitions should specify type and duration
@@ -1032,52 +997,47 @@ LX (cue 5): Fade                â† No trigger (implicit)
 
 ## Version History
 
-**v0.9 (Public Draft - April 2026)**
+### v0.9 (Public Draft - April 2026)
 
 - Initial public specification
 - Core syntax definition
 - Domain-agnostic design
 - Common cue type conventions across theatre, film, live events, and broadcast
-- Optional trigger syntax (`on`, `after`, `with`)
+- Open trigger syntax with standard keywords (`on`, `after`, `with`) and support for custom keywords
 - Optional metadata system `[key=value]`
 - Timing rules (units required for numeric values)
 - Standby/warning system via `warn` metadata
 - Progressive enhancement workflow
-- Fountain integration patterns
-- Final Draft compatibility
-- Based on production practices across multiple industries
+- Fountain compatibility patterns
+- Final Draft practical example (tested during specification development)
 
 ---
 
-## Future Considerations (v2.0+)
+## Future Considerations
 
 Features being considered for future versions:
 
 - **Cue relationships:** Syntax for linked, simultaneous, or follow-on cues
+- **Cue grouping:** A `group` metadata key to associate cues across types for export to control systems (e.g., QLab groups). Grouping would be a parser hint for organizational output, not an execution or timing instruction.
 - **Role-specific cues:** Tie cues to specific performers, crew positions, or equipment
-- **Pre-production checklists:** Cue counts and readiness verification
-- **Multi-language support:** Support for non-English productions
-- **Extended trigger types:** More sophisticated trigger conditions and dependencies
 - **Conditional cues:** Cues that fire based on conditions (alternate takes, live vs recorded, etc.)
-- **Timeline integration:** Explicit timecode or time-based triggering
-- **Multi-camera notation:** Specific syntax for multi-camera productions
-- **Revision tracking:** Built-in change tracking and version control
+- **Timeline integration:** Explicit timecode or time-based triggering, relevant for broadcast and film
 
 ---
 
 ## License
 
-CueScript is an open specification. Implementations may use any license, but the specification itself is released under [CC BY-ND 4.0](https://creativecommons.org/licenses/by/4.0/).
+CueScript is an open specification. Implementations may use any license, but the specification itself is released under [CC BY-ND 4.0](https://creativecommons.org/licenses/by-nd/4.0/).
 
 ---
 
 ## Reference Implementation
 
-**QBook** is a macOS application and the reference implementation of CueScript, demonstrating how specialized tools can be built on the universal CueScript format. QBook parses CueScript documents and exports directly to QLab workspaces.
+The CueScript specification was developed alongside a working implementation, demonstrating that the format is practical and production-ready. CueScript is an open format — any tool or application can implement the specification independently.
 
-CueScript is an open format — implementations can serve any production domain. QBook focuses on theatre and live production workflows, but film, broadcast, and live event applications are equally valid uses of the specification.
-
-For more information: https://github.com/nmds/cuescript
+- **Specification repository:** <https://github.com/nmds/cuescript>
+- **Website:** <https://www.cuescript.org>
+- **Known implementations:** <https://www.cuescript.org/implementations>
 
 ---
 
@@ -1087,21 +1047,11 @@ CueScript draws from production practices across theatre, film, television, live
 
 ### Fountain
 
-CueScript is built on **Fountain**, the open-source plain text markup language for screenwriting created by [John August](http://johnaugust.com), [Stu Maschwitz](http://prolost.com), and [Nima Yousefi](http://nimayousefi.com), with contributions from Martin Vilcans, Brett Terpstra, Jonathan Poritsky, Kent Tessman, and Clinton Torres.
+CueScript's plain-text philosophy was inspired by **Fountain**, the open-source plain text markup language for screenwriting created by [John August](http://johnaugust.com), [Stu Maschwitz](http://prolost.com), and [Nima Yousefi](http://nimayousefi.com), with contributions from Martin Vilcans, Brett Terpstra, Jonathan Poritsky, Kent Tessman, and Clinton Torres.
 
-Fountain's elegant approach to plain text screenplay formatting inspired CueScript's design principles: human-readable, portable, future-proof, and built on open standards.
+Fountain's elegant approach to plain text screenplay formatting — human-readable, portable, future-proof, and built on open standards — directly informed CueScript's design principles.
 
 Learn more about Fountain at [fountain.io](https://fountain.io)
-
-### Compatible Software
-
-CueScript is designed to work seamlessly with:
-
-- **Fountain** - The open-source screenplay markup syntax (fountain.io)
-- **Final Draft** - Industry-standard screenwriting software
-- **Highland, Slugline, Fade In, Beat, and other Fountain-compatible editors**
-
-The format is intentionally domain-agnostic, allowing specialized applications to serve specific production contexts while sharing a common foundation.
 
 ---
 
