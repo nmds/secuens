@@ -1,0 +1,55 @@
+Title: The Haunted Mansion
+Author: Example Production
+Draft date: April 2026
+Format: Secuens v0.9
+
+===
+
+INT. HAUNTED MANSION - NIGHT
+
+John enters cautiously. The floorboards creak under his feet.
+
+[[SQ (cue 1) [file="ambience_mansion.wav", level=0.3, loop=true]: Background ambience]]
+
+He pauses, listening.
+
+SQ (cue 2) [level=-6dB]: Distant thunder
+
+He approaches the large wooden door.
+
+!SQ (cue 3) on door contact: Door slams shut
+
+LX (cue 4) with door slam [duration=500ms]: Lights flicker
+
+John spins around, startled.
+
+MQ (cue 5) [prewait=1s, fade=2s]: Tension underscore begins
+
+JOHN
+Who's there?
+
+[[SPOT (cue 6) [warn=30s, target=spot_1]: Isolate John center stage]]
+
+No response. Only silence.
+
+A shadow moves at the edge of the room.
+
+LX (cue 7) on "there": Snap light change — cold blue wash
+
+John takes a step back.
+
+SQ (cue 8) [file="footsteps_wood.wav", level=-3dB]: Footsteps from above
+
+MQ (cue 9) [fade=1s, level=80%]: Underscore builds
+
+JOHN
+(whispering)
+I'm not alone.
+
+LX (cue 10) [fade=5s, warn=30s]: Slow fade to blackout
+
+SQ (cue 11) [fade=3s]: Ambience fades out
+
+MQ (cue 12) [fade=2s]: Music cuts
+
+FADE OUT.

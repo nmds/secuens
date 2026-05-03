@@ -1,0 +1,129 @@
+Title: Evening News — Studio A
+Author: Example Production
+Draft date: April 2026
+Format: Secuens v0.9
+
+===
+
+NEWSCAST - STUDIO A - 8:00 PM
+
+Countdown clock ticking. Floor director ready.
+
+[[AUDIO (cue 1) [source=playback, file="news_open.mp3", level=-3dB]: News open music — cued and ready]]
+
+[[CAMERA (cue 1) [preset=anchor_wide, source=cam1]: Camera 1 — anchor wide — on standby]]
+
+ON AIR.
+
+PLAYBACK (cue 2) [file="news_open.mp4", audio=stereo, duration=15s]: Roll open package
+
+Graphics animate on screen.
+
+GRAPHICS (cue 3) [template=news_open, duration=15s]: Animated title sequence synced to open
+
+Music fades. Camera reveals anchor desk.
+
+CAMERA (cue 4) [source=cam1, transition=dissolve, duration=1s]: Dissolve to anchor — cam 1
+
+AUDIO (cue 5) [fade=2s, level=-18dB]: Music bed under
+
+Anchor looks to camera.
+
+AUDIO (cue 6) [source=anchor_mic, compression=medium, gate=-30dB]: Anchor microphone hot
+
+ANCHOR (MICHAEL CHEN)
+Good evening. Tonight's top stories:
+
+A six-alarm fire in the downtown district.
+
+GRAPHICS (cue 7) [template=over_shoulder, image="fire_still.jpg", position=OTS_right]: OTS — fire image
+
+ANCHOR
+The mayor's office responds to budget controversy.
+
+GRAPHICS (cue 8) [template=over_shoulder, image="mayor_still.jpg", position=OTS_right]: OTS — mayor image
+
+ANCHOR
+And local students make history at the science fair.
+
+GRAPHICS (cue 9) [template=over_shoulder, image="students_still.jpg", position=OTS_right]: OTS — students image
+
+ANCHOR
+I'm Michael Chen. This is the Evening News.
+
+GRAPHICS (cue 10): Clear OTS graphic
+
+ANCHOR
+We begin tonight with that fire. Reporter Sandra Lee is live on scene.
+
+CAMERA (cue 11) [source=cam2, transition=cut]: Cut to cam 2 — wide two-shot
+
+AUDIO (cue 12) [source=IFB, level=-6dB]: IFB to anchor — reporter ready
+
+PLAYBACK (cue 13) [file="fire_live_pkg.mp4", audio=stereo]: Roll live shot — reporter package
+
+Reporter appears live.
+
+GRAPHICS (cue 14) [template=lower_third, content="Sandra Lee — Live", position=lower_left, duration=8s]: Lower third — reporter name
+
+GRAPHICS (cue 15) [template=location_bug, content="Downtown — 4th and Main", position=lower_right]: Location bug
+
+REPORTER (SANDRA LEE) (V.O.)
+Michael, the blaze began just after 6 PM...
+
+PLAYBACK (cue 16) [file="fire_footage.mp4", duration=45s]: B-roll — fire footage
+
+Reporter continues VO.
+
+GRAPHICS (cue 17) on reporter tosback: Clear all graphics
+
+CAMERA (cue 18) [source=cam1, transition=cut]: Cut to anchor — cam 1
+
+ANCHOR
+Thank you, Sandra. We'll have more on that story throughout the evening.
+
+Moving now to the budget controversy...
+
+GRAPHICS (cue 19) [template=full_screen, file="budget_graphic.mp4", duration=20s]: Full screen graphic — budget breakdown
+
+AUDIO (cue 20) [source=anchor_mic, level=hold]: Anchor reads over graphic
+
+ANCHOR
+The mayor's office released a statement earlier today...
+
+PLAYBACK (cue 21) [file="mayor_statement.mp4", duration=30s, audio=nat_sound]: Mayor sound bite
+
+Mayor speaks on tape.
+
+GRAPHICS (cue 22) [template=lower_third, content="Mayor Patricia Alvarez", duration=6s]: Lower third — mayor name
+
+CAMERA (cue 23) with package end [source=cam1, transition=cut]: Cut to anchor
+
+ANCHOR
+The mayor declined to answer further questions.
+
+We'll be right back.
+
+PLAYBACK (cue 24) [file="commercial_break_1.mp4", audio=stereo, duration=120s]: Commercial break — 2 minutes
+
+[[AUDIO (cue 25): Check anchor mic levels during break — slight peak noticed]]
+[[CAMERA (cue 26): Reframe cam 1 for next segment — tighter two-shot needed]]
+
+BREAK OUT.
+
+PLAYBACK (cue 27) [file="return_bumper.mp4", duration=5s]: Return bumper
+
+CAMERA (cue 28) [source=cam1, transition=dissolve]: Dissolve to anchor
+
+AUDIO (cue 29) [source=anchor_mic]: Anchor hot
+
+ANCHOR
+Welcome back...
+
+--- SEGMENT CONTINUES ---
+
+End of broadcast.
+
+AUDIO (cue 99) [file="closing_music.mp3", fade=0s, level=-3dB]: Closing music
+GRAPHICS (cue 99) [template=closing_credits, duration=30s]: Credits roll
+CAMERA (cue 99) [source=cam3, preset=wide_studio]: Wide studio shot for credits

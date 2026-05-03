@@ -1,0 +1,78 @@
+Title: The Crossing (Film)
+Author: Example Production
+Draft date: April 2026
+Format: Secuens v0.9
+
+Note: Film example uses "shot" and "setup" labels throughout.
+CAMERA and SOUND use "shot"; LIGHT uses "setup".
+
+===
+
+EXT. CITY STREET - DAY
+
+Traffic moves past. SARAH walks briskly down the sidewalk, glancing at her phone.
+
+CAMERA (shot 1) [lens=35mm, movement=tracking, frame=MS]: Follow Sarah — medium shot tracking
+
+LIGHT (setup 1) [type=natural, source=overcast]: Available light — overcast sky
+
+She glances over her shoulder nervously.
+
+CAMERA (shot 2) [lens=85mm, angle=low, frame=CU]: Close-up — Sarah's eyes
+
+A black car pulls up alongside her.
+
+SOUND (shot 3) [note="Capture car approach separately, ADR likely"]: Car engine close-up
+
+Sarah stops. The window rolls down.
+
+CAMERA (shot 4) [lens=50mm, angle=interior, frame=MCU]: Through car window — driver POV
+
+VFX (cue 1) [plate=clean, element=background_plate]: Clean plate for background replacement
+
+MYSTERIOUS MAN
+Get in.
+
+CAMERA (shot 5) [lens=85mm, angle=OTS, frame=MCU]: Over shoulder — Sarah reacts
+
+LIGHT (setup 2) [type=bounce, direction=left, intensity=1k]: Bounce fill — soften shadows on Sarah
+
+Sarah hesitates.
+
+CAMERA (shot 6) [lens=135mm, angle=low, frame=ECU]: Extreme close-up — Sarah's hand on door handle
+
+SOUND (shot 7) [boom=overhead, note="Clean handle sound — Foley in post"]: Car door handle
+
+Sarah opens the door and gets in.
+
+CAMERA (shot 8) [lens=35mm, movement=dolly, frame=WS]: Pull back — wide shot as car drives away
+
+VFX (cue 2) [plate=green, element=city_background]: Background replacement — city recedes
+
+CUT TO:
+
+---
+
+INT. CAR - MOVING - DAY
+
+Sarah in back seat. MYSTERIOUS MAN driving.
+
+CAMERA (shot 9) [lens=35mm, angle=rear, rig=car_mount]: Car mount — rear-facing, Sarah FS
+
+LIGHT (setup 3) [type=practical, source=windows]: Window light — moving dappled effect
+
+SARAH
+Where are you taking me?
+
+CAMERA (shot 10) [lens=50mm, angle=rear_mirror, frame=ECU]: Rear mirror reflection — Man's eyes
+
+MYSTERIOUS MAN
+Somewhere safe.
+
+SOUND (shot 11) [note="Record engine separately for mix"]: Interior car ambience
+
+CAMERA (shot 11a) [lens=85mm, angle=profile, frame=CU]: Profile — Sarah processing
+
+VFX (cue 3) [element=window_reflections, note="Enhance city blur in post"]: Window reflections VFX
+
+FADE TO:

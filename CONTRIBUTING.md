@@ -1,60 +1,93 @@
-# Contributing to CueScript
+# Contributing to Secuens
 
-CueScript is an open specification. Contributions and feedback are welcome.
-
-> **License note:** The specification text is released under [CC BY-ND 4.0](https://creativecommons.org/licenses/by-nd/4.0/). This means the spec may be shared and implemented freely with attribution, but the text itself may not be modified or republished in altered form. Contributions submitted here (issues, feedback, proposals) may be incorporated into future spec versions, which remain under the same license.
+Thank you for your interest in contributing to the Secuens specification.
 
 ---
 
-## How to contribute
+## What This Repository Contains
 
-### Feedback on the specification
+This repository holds the **Secuens specification** — an open plain-text format for technical cue notation in production documents.
 
-The best way to contribute is to open a [GitHub Issue]https://github.com/nmds/cuescript/issues).
-
-Useful feedback includes:
-
-- **Ambiguities** — anything in the spec that could be interpreted in more than one way
-- **Gaps** — production scenarios not covered by the current syntax
-- **Real-world conventions** — cue types or numbering practices used in your domain that aren't represented
-- **Parser implementation questions** — anything that makes the spec hard to implement
-- **Examples** — scripts or cue sheets that could improve the examples directory
-
-### Proposing changes
-
-Open an Issue before writing anything. Describe the problem you're solving and your proposed approach. This keeps discussion focused and avoids duplicated effort.
-
-For small corrections (typos, broken links, formatting), a Pull Request is fine without a prior Issue.
-
-### Domain expertise
-
-CueScript is designed to work across theatre, film, live events, and broadcast. If you work in any of these fields, your perspective on real-world practice is especially valuable — even if you're not a developer.
+It does not contain application code. If you're looking to build a tool that implements Secuens, see the [Implementations](https://www.secuens.org/implementations) page.
 
 ---
 
-## What this repository covers
+## Ways to Contribute
 
-This repository contains the **CueScript open specification** only. It is not the right place for:
+### Report Specification Issues
 
-- Bug reports or feature requests for specific tools that implement CueScript
-- Implementation code (parsers, exporters, editors)
+If you find ambiguities, edge cases, or errors in the specification:
 
-For tool-specific issues, refer to the relevant tool's repository.
+1. Open an [Issue](https://github.com/meikr/secuens/issues)
+2. Use the label `spec-issue`
+3. Describe the specific section, the problem, and (if possible) a proposed resolution
+
+### Suggest Improvements
+
+If you have ideas for:
+- New standard metadata keys
+- Domain-specific cue type conventions
+- New trigger keyword patterns
+- Future version features
+
+Open an Issue with the label `enhancement` and describe your use case from real production experience.
+
+### Improve Examples
+
+If you have real-world production examples that demonstrate edge cases or domain-specific workflows:
+
+1. Fork the repository
+2. Add your example to `examples/` following the naming convention: `domain-description.secuens`
+3. Open a Pull Request with a brief description of what the example demonstrates
+
+### Fix Documentation
+
+Typos, unclear wording, broken links — open a Pull Request directly.
 
 ---
 
-## Versioning
+## What We're Looking For
 
-CueScript follows a simple versioning scheme:
+Secuens is a specification for practitioners. The most valuable contributions come from:
 
-- **v0.x** — Public drafts, open for feedback, format may change
-- **v1.x** — Stable releases, backwards-compatible changes only
-- **v2.x** — Major revisions with potential breaking changes
+- **Stage managers** and **production managers** who work with cue notation daily
+- **Assistant directors** and **script supervisors** in film and television
+- **Technical directors** and **show callers** in live events and broadcast
+- **Developers** building tools that parse or generate Secuens documents
 
-Each version lives in its own directory under `specification/`.
+If you work in production and find something that doesn't match how you actually work, that's valuable feedback.
 
 ---
 
-## Code of conduct
+## What We're Not Looking For
 
-Be direct, be kind, be specific. This is a technical project serving working professionals — feedback should be grounded in real production practice.
+- Requests to change the core syntax to accommodate a specific tool's limitations
+- Features that solve problems better handled at the application layer
+- Spec changes that would break backward compatibility without strong justification
+
+---
+
+## Specification Philosophy
+
+Before submitting a contribution, please read the [Design Principles](specification/v0.9/Secuens-v0.9-DRAFT.md#design-principles) in the spec. Contributions should align with:
+
+- **Plain-text first** — the spec must remain readable in any text editor
+- **Domain-agnostic** — changes should work across theatre, film, broadcast, and beyond
+- **Progressive enhancement** — simple cues should stay simple; complexity is opt-in
+- **Parser-friendly** — syntax must be unambiguous and reliably parseable
+
+---
+
+## Process
+
+This is a small, focused project. There's no formal governance structure yet. Significant changes to the specification will be discussed openly in Issues before being incorporated.
+
+The specification maintainer is [@meikr](https://github.com/meikr).
+
+---
+
+## License
+
+By contributing to this repository, you agree that your contributions will be licensed under the same [CC BY-ND 4.0](LICENSE) license that covers the specification.
+
+Note: CC BY-ND 4.0 covers the specification document itself. Example files and tools in this repository may be under different licenses as noted in their respective directories.

@@ -1,0 +1,89 @@
+Title: The Last Song (Musical)
+Author: Example Production
+Draft date: April 2026
+Format: Secuens v0.9
+
+===
+
+ACT ONE
+
+INT. THEATRE STAGE - NIGHT
+
+The stage is dark. A single spotlight finds the center.
+
+[[LX (cue 1) [fade=0s, preset=house_out]: House lights out]]
+
+[[MQ (cue 2) [file="overture.wav", level=-6dB, fade=2s]: Overture begins]]
+
+Audience settles. The music builds.
+
+LX (cue 3) [fade=5s, preset=opening_wash]: Stage lights up — warm amber wash
+
+The company assembles on stage.
+
+AUTO (cue 4) [warn=2m, duration=15s]: Revolve stage — bring on set piece
+
+COMPANY
+(singing)
+The curtain rises on a brand new day...
+
+MQ (cue 5) with conductor downbeat: Orchestra swells — verse 1
+
+[[SPOT (cue 6) [target=spot_1, level=80%]: Spot on LEAD — center stage]]
+[[SPOT (cue 7) [target=spot_2, level=60%]: Fill spot on company — upstage]]
+
+LEAD
+(singing)
+This is the moment I've been waiting for...
+
+LX (cue 8) on "moment" [fade=1s, preset=lead_special]: Special on LEAD tightens
+
+MQ (cue 9) with verse end: Transition to chorus
+
+FLY (cue 10) [warn=1m, duration=8s]: Fly in backdrop — city skyline
+
+The backdrop descends behind the company.
+
+COMPANY
+(singing — chorus)
+One city, one dream, one night...
+
+LX (cue 11) [fade=2s, preset=full_wash_cool]: Full stage — cool blue wash
+
+SQ (cue 12) [file="rain.wav", level=-12dB]: Rain sound effect under music
+
+MQ (cue 13) with chorus end: Bridge — strings only
+
+The company breaks into choreography.
+
+LX (cue 14) [duration=4s, preset=strobe_slow]: Slow strobe — 2 per second
+
+AUTO (cue 15) [warn=30s, duration=6s]: Platform rises — LEAD elevated
+
+LEAD
+(speaking)
+And this is where it ends.
+
+LX (cue 16) [fade=3s, preset=single_follow]: Follow spot holds on LEAD
+
+MQ (cue 17) with "ends": Music stops — silence
+
+Beat.
+
+SQ (cue 18) [file="thunder_distant.wav", level=-18dB, prewait=2s]: Distant thunder
+
+MQ (cue 19) [prewait=1s, fade=4s, file="reprise.wav"]: Reprise — piano solo
+
+LEAD
+(singing — reprise)
+But every ending is a beginning...
+
+LX (cue 20) [fade=8s, warn=30s, preset=blackout]: Fade to blackout — slow
+
+[[SPOT (cue 21) [fade=5s]: Spot fades last]]
+
+MQ (cue 22) [fade=6s]: Music fades under
+
+BLACKOUT.
+
+END OF ACT ONE

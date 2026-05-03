@@ -1,0 +1,100 @@
+Title: Annual Innovation Summit — Main Stage
+Author: Example Production
+Draft date: April 2026
+Format: Secuens v0.9
+
+===
+
+CONFERENCE - MAIN STAGE - MORNING SESSION
+
+Doors open. Audience files in.
+
+[[AUDIO (cue 1) [file="pre_show_music.mp3", level=-18dB, loop=true]: Pre-show music — background]]
+[[LIGHTS (cue 2) [preset=house_50, fade=0s]: House lights 50%]]
+
+--- 30 MIN BEFORE SHOW ---
+
+Audience mostly seated.
+
+LIGHTS (cue 3) [fade=10s, preset=house_down]: House lights down — 20%
+
+GRAPHICS (cue 4) [template=countdown, duration=600s, position=main_screen]: 10-minute countdown on screen
+
+--- SHOWTIME ---
+
+AUDIO (cue 5) [fade=3s]: Pre-show music fade out
+
+LIGHTS (cue 6) [fade=3s, preset=blackout]: House to black
+
+VIDEO (cue 7) [source=playback, file="summit_opener.mp4", audio=stereo]: Roll opener video — 2 min
+
+Video ends. Screen goes dark.
+
+LIGHTS (cue 8) [fade=3s, preset=stage_wash_warm]: Stage wash up — warm amber
+
+AUDIO (cue 9) [source=playback, file="entrance_music.mp3", fade=1s]: Entrance music
+
+GRAPHICS (cue 10) [template=lower_third, content="CEO — Jane Michaels", duration=8s]: Lower third — CEO name
+
+Speaker walks to center stage. Applause.
+
+CAMERA (cue 11) [preset=single_wide, transition=dissolve]: Camera 1 — speaker full
+
+AUDIO (cue 12) [fade=2s]: Entrance music fade out
+
+AUDIO (cue 13) [source=lav_1, gate=-22dB, compression=light]: Lavalier hot — speaker
+
+SPEAKER (JANE MICHAELS)
+Thank you all for being here today. This is our most important summit yet.
+
+GRAPHICS (cue 14) [template=presentation, source=laptop_hdmi]: Display slide 1 — title
+
+Speaker gestures to screen.
+
+CAMERA (cue 15) [preset=single_tight, transition=cut]: Camera 2 — tighter on speaker
+
+SPEAKER
+Let's talk about what comes next.
+
+GRAPHICS (cue 16) with slide advance: Display slide 2 — data
+
+CAMERA (cue 17) [preset=wide_stage, speed=slow, transition=dissolve]: Camera 3 — wide pull back
+
+The hall is full. Energy is high.
+
+LIGHTS (cue 18) [fade=2s, preset=add_audience_wash]: Bring up audience wash — subtle
+
+SPEAKER
+I want to introduce someone who embodies everything we stand for.
+
+AUDIO (cue 19) [source=playback, file="intro_sting.mp3", level=-6dB]: Short intro sting
+
+GRAPHICS (cue 20) [template=full_screen, file="guest_intro.mp4", duration=30s]: Guest intro video
+
+Video plays. Speaker steps aside.
+
+GUEST walks on stage. Applause.
+
+AUDIO (cue 21) [source=lav_2, gate=-22dB]: Guest lavalier hot
+
+AUDIO (cue 22) [source=lav_1, gate=-40dB]: Speaker lav down — not off
+
+CAMERA (cue 23) [preset=two_shot, transition=cut]: Camera 1 — two shot
+
+LIGHTS (cue 24) [fade=2s, preset=two_person_special]: Add fill for two on stage
+
+--- PANEL BEGINS ---
+
+AUDIO (cue 25) [source=lav_1, gate=-22dB]: Speaker back up — panel begins
+
+CAMERA (cue 26) [preset=panel_wide, transition=dissolve]: Wide shot — panel
+
+End of morning session.
+
+LIGHTS (cue 27) [fade=5s, preset=house_50]: House lights up — 50%
+
+AUDIO (cue 28) [source=playback, file="break_music.mp3", level=-18dB, fade=3s]: Break music in
+
+GRAPHICS (cue 29) [template=break_slide, content="Break — 15 minutes", position=main_screen]: Break slide
+
+[[AUDIO (cue 30): Check all mics — battery levels before afternoon session]]

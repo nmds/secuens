@@ -1,126 +1,206 @@
-# CueScript
+# Secuens
 
-**Plain-text technical cue notation for theatre, film, and live production.**
+**Plain-text technical cue notation for theatre, film, live events, and broadcast.**
 
-CueScript is an open format for embedding technical cues — lighting, sound, camera, video, and more — directly within scripts and production documents. It works in any text editor, on any platform, without specialized software.
-
----
-
-## What it looks like
-
-```
-LX (cue 5) [fade=3s]: Fade to blackout
-SQ (cue 6) on "exit": Door slams shut
-CAMERA (shot 3) [lens=85mm, frame=MCU]: Close-up on Sarah
-VIDEO (cue 2) with speaker entrance [transition=cut]: Switch to camera 2
-```
-
-Simple to read. Simple to write. Parseable by machines, legible to humans.
+> *Write the cue where the idea happens.*
 
 ---
 
-## Who it's for
+Secuens is an open specification for embedding technical cues directly inside scripts, scores, and production documents — as readable plain text. No proprietary formats, no separate cue lists, no extra tools required to read.
 
-- **Stage managers** annotating calling scripts
-- **Directors** marking cues during script development
-- **ADs and script supervisors** coordinating technical departments on set
-- **Live event and broadcast directors** managing complex multi-department cues
-- **Developers** building production tools that need an open, interoperable cue format
+A Secuens cue looks like this:
+
+```
+LX (cue 5) on "Juliet" [fade=3s]: Fade to blackout
+CAMERA (shot 3) [lens=85mm, frame=CU]: Close-up on actor's face
+AUDIO (cue 7) [fade=2s, level=-6dB]: Music under speech
+```
+
+That's it. Human-readable. Machine-parseable. Works in any text editor.
 
 ---
 
-## How it works
+## Why Secuens
 
-A CueScript cue has four parts:
+Production teams work from scripts. But technical cues live in separate systems — cue sheets, QLab workspaces, lighting desks, camera logs — disconnected from the creative document that drives the whole production.
 
-```
-CUETYPE (LABEL NUMBER) TRIGGER: DESCRIPTION
-```
+Every time something changes, you update three documents.
 
-| Part | Required | Example |
-|------|----------|---------|
-| `CUETYPE` | Yes | `LX`, `SOUND`, `CAMERA` |
-| `(LABEL NUMBER)` | Yes | `(cue 5)`, `(shot 3a)` |
-| `TRIGGER` | No | `on "Juliet"`, `after 2s` |
-| `DESCRIPTION` | Yes | `Fade to blackout` |
-
-Optional metadata adds technical detail without breaking readability:
-
-```
-LX (cue 5) [fade=3s, warn=30s]: Fade to blackout
-```
-
-Cues evolve with production — start minimal, add detail as decisions are made.
+Secuens fixes that by bringing the cue back where the idea lives: **in the text**.
 
 ---
 
-## Domain-agnostic
+## How It Works
 
-CueScript is not a theatre format or a film format. The same syntax serves any production context:
+A cue follows a consistent pattern:
 
-- **Theatre** — `LX`, `SQ`, `FLY`, `SPOT`, `AUTO`
-- **Film** — `CAMERA`, `LIGHT`, `SOUND`, `VFX`, `STUNT`
-- **Live events** — `VIDEO`, `AUDIO`, `GRAPHICS`, `PLAYBACK`
-- **Broadcast** — `CAMERA`, `GRAPHICS`, `TRANSITION`, `PLAYBACK`
-- **Any production** — define your own cue types freely
+```
+CUETYPE (label NUMBER) TRIGGER [METADATA]: DESCRIPTION
+```
+
+- **CUETYPE** — the production department or element (`LX`, `SOUND`, `CAMERA`, `VIDEO`, `AUDIO`...)
+- **label NUMBER** — the cue identifier (`cue 5`, `shot 3`, `setup 2a`)
+- **TRIGGER** — optional: when it fires (`on "line"`, `after 3s`, `with entrance`)
+- **METADATA** — optional: technical details (`[fade=3s, level=80%]`)
+- **DESCRIPTION** — what happens, in plain language
+
+Secuens files are plain UTF-8 text. They can be opened in any text editor or word processor. In Fountain-compatible applications, cues render as readable action lines — no plugins, no modifications required.
 
 ---
 
-## Plain text, no dependencies
+## Quick Examples
 
-CueScript is UTF-8 text. It opens in:
+### Theatre
 
-- Any text editor (TextEdit, Notepad, Vim, VS Code...)
-- Any Fountain-compatible application (Highland, Slugline, Beat, Fade In...)
-- Final Draft (as action/description paragraphs)
+```secuens
+INT. HAUNTED MANSION - NIGHT
 
-CueScript is **inspired by Fountain** and is compatible with Fountain parsers. Fountain tooling is not required — CueScript works equally well as standalone plain text.
+John enters cautiously.
 
-**File extensions:** `.cuescript` for production documents, `.fountain` for maximum Fountain ecosystem compatibility. Both contain identical text and are freely interchangeable.
+[[SQ (cue 1) [file="ambience.wav", loop=true]: Background ambience]]
+
+SQ (cue 2) [level=-6dB]: Distant thunder
+
+He approaches the door.
+
+SQ (cue 3) on door contact: Door slams shut
+
+LX (cue 4) with door slam [duration=500ms]: Lights flicker
+
+LX (cue 7) [fade=5s, warn=30s]: Slow fade to blackout
+```
+
+### Film
+
+```secuens
+EXT. CITY STREET - DAY
+
+CAMERA (shot 1) [lens=35mm, movement=tracking]: Follow Sarah medium shot
+
+She glances over her shoulder.
+
+CAMERA (shot 2) [lens=85mm, angle=low, frame=CU]: Close-up — Sarah's eyes
+
+SOUND (take 1) [note="Capture separately"]: Car engine close-up
+
+LIGHT (setup 2) [type=bounce, direction=left]: Soften shadows on actor
+```
+
+### Live Event
+
+```secuens
+LIGHTS (cue 1) [fade=3s, preset=stage_wash]: Stage lights up
+
+VIDEO (cue 2) [source=playback, file="intro.mp4"]: Roll intro video
+
+CAMERA (cue 5) [preset=single_shot, transition=dissolve]: Camera 2 — speaker
+
+AUDIO (cue 6) [source=lav_mic, gate=-20dB]: Activate speaker mic
+```
+
+---
+
+## File Extensions
+
+- **`.secuens`** — Secuens-specific extension for production-focused documents
+- **`.fountain`** — Use when working within the Fountain ecosystem or sharing with screenwriters and directors
+
+Both extensions contain identical content and are fully interchangeable.
 
 ---
 
 ## Specification
 
-The full specification is in [`specification/CueScript-v0.9-draft.md`](specification/CueScript-v0.9-draft.md).
+The full specification lives in [`specification/v0.9/`](specification/v0.9/).
 
-Current version: **v0.9 (Public Draft)**
+Current version: **v0.9.1 (Public Draft, April 2026)**
 
 The spec covers:
-- Core syntax and all components
-- Optional metadata system
-- Cue numbering conventions
-- Fountain compatibility patterns
+- Complete syntax definition with formal patterns
+- All cue components: CUETYPE, LABEL, NUMBER, TRIGGER, METADATA, DESCRIPTION
+- Standard metadata keys for timing, levels, files, targets, and more
+- Domain conventions: theatre, film, live events, broadcast
+- Fountain compatibility patterns (action lines, forced action, hidden cues)
 - Parser requirements (MUST / SHOULD / MAY)
 - Validation rules and edge cases
-- Complete examples across theatre, film, live events, and broadcast
+- Complete production examples
 
 ---
 
-## Status
+## Examples
 
-CueScript v0.9 is a **public draft open for community feedback**.
+Real-world example files are in [`examples/`](examples/):
 
-The format is stable enough to build on. Feedback before v1.0 is especially valuable — open an [Issue](https://github.com/meikr/cuescript/issues) to share your thoughts, report ambiguities, or propose additions.
+| File | Domain |
+|------|--------|
+| [`theatre-basic.secuens`](examples/theatre-basic.secuens) | Simple theatre scene |
+| [`theatre-musical.secuens`](examples/theatre-musical.secuens) | Musical theatre, multi-department |
+| [`film-shoot.secuens`](examples/film-shoot.secuens) | Film production with setup notation |
+| [`live-event-conference.secuens`](examples/live-event-conference.secuens) | Corporate live event |
+| [`broadcast-newscast.secuens`](examples/broadcast-newscast.secuens) | TV broadcast |
+
+---
+
+## Tools
+
+### Parsers
+
+- [`tools/parsers/`](tools/parsers/) — Reference parser implementations
+
+### Validators
+
+- [`tools/validators/`](tools/validators/) — Validator logic and test cases
+
+### Known Implementations
+
+See [secuens.org/implementations](https://www.secuens.org/implementations) for a current list of tools that support Secuens.
+
+**QBook** is the reference implementation — a production-focused cue management application built on the Secuens format. Learn more at [secuens.org](https://www.secuens.org).
+
+---
+
+## Progressive Enhancement
+
+Secuens is designed for production workflows. A cue is valid at any stage of detail:
+
+```secuens
+# During scripting — mark where it happens
+LX (cue 5):
+
+# During rehearsal — add the trigger and description
+LX (cue 5) on "Juliet": Fade to blackout
+
+# During tech — add full implementation detail
+LX (cue 5) on "Juliet" [fade=3s, warn=30s, target=all]: Fade to blackout
+```
 
 ---
 
 ## Contributing
 
-Feedback is welcome via [GitHub Issues](https://github.com/meikr/cuescript/issues).
+Secuens is an open specification. Community input is welcome — especially from production practitioners across all domains.
 
-Useful contributions include:
-- Ambiguities or gaps in the specification
-- Real-world cue conventions not covered
-- Domain-specific use cases (film, broadcast, live events)
-- Parser implementation questions
-
-CueScript is maintained by the [meikr](https://github.com/meikr) organization.
+See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
 
 ---
 
 ## License
 
-The CueScript Specification is released under [CC BY-ND 4.0](https://creativecommons.org/licenses/by-nd/4.0/).
+The Secuens specification is released under [CC BY-ND 4.0](https://creativecommons.org/licenses/by-nd/4.0/).
 
-You are free to implement and share the specification with attribution. The spec text itself may not be modified or republished in altered form. Implementations may use any license.
+You are free to read, implement, and share the specification. You may not publish modified versions of the specification itself.
+
+Implementations — parsers, editors, tools built on Secuens — may use any license.
+
+---
+
+## Acknowledgments
+
+Secuens draws from production practices across theatre, film, television, live events, and broadcast. Its plain-text philosophy was inspired by [Fountain](https://fountain.io), the open screenplay markup language.
+
+The name *Secuens* comes from the Latin *sequens* — the sequence, the thing that follows — with the cue hidden inside.
+
+---
+
+*Secuens Specification v0.9.1 (Public Draft) — April 2026*  
+*[secuens.org](https://www.secuens.org) · [github.com/meikr/secuens](https://github.com/meikr/secuens)*

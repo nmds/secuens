@@ -1,30 +1,40 @@
-## About CueScript
+---
+title: Secuens Specification v0.9 (Public Draft)
+---
 
-**CueScript** is a plain-text technical cue notation syntax for embedding standardized technical cues within readable scripts. It allows production coordinators, directors, and technical teams to annotate scripts with cue information while keeping them fully readable in any text editor or Fountain-compatible application. Structured cue interpretation is handled at the parser level.
+**Status:** Public Draft  
+**Date:** April 2026  
+**License:** CC BY-ND 4.0
 
-CueScript follows the plain-text annotation philosophy established by Markdown and adopted by Fountain — structured meaning embedded in readable text using only standard characters.
+---
 
-CueScript is a universal format that works across any production context requiring technical notation: theatre, film, television, live events, broadcast, podcasts, and more. The same syntax serves different domains through specialized applications built on the open format.
+## About Secuens
+
+**Secuens** is a plain-text technical cue notation syntax for embedding standardized technical cues within readable scripts. It allows production coordinators, directors, and technical teams to annotate scripts with cue information while keeping them fully readable in any text editor or Fountain-compatible application. Structured cue interpretation is handled at the parser level.
+
+Secuens follows the plain-text annotation philosophy established by Markdown and adopted by Fountain — structured meaning embedded in readable text using only standard characters.
+
+Secuens is a universal format that works across any production context requiring technical notation: theatre, film, television, live events, broadcast, podcasts, and more. The same syntax serves different domains through specialized applications built on the open format.
 
 ### File Format
 
-CueScript documents are plain UTF-8 text files. They can be created and edited in any text editor. In Fountain-compatible applications, cues render as readable action lines — no modification required.
+Secuens documents are plain UTF-8 text files. They can be created and edited in any text editor. In Fountain-compatible applications, cues render as readable action lines — no modification required.
 
 #### File Extensions
 
-CueScript documents use one of two extensions:
+Secuens documents use one of two extensions:
+
+- **`.secuens`** — Secuens-specific extension. Use when creating production-focused documents or working primarily in Secuens-aware tools. Signals that the file contains technical cue notation.
 
 - **`.fountain`** — Standard Fountain extension. Use when working within the Fountain ecosystem or sharing with screenwriters, directors, and actors. Opens in any Fountain-compatible application.
 
-- **`.cuescript`** — CueScript-specific extension. Use when creating production-focused documents or working primarily in CueScript-aware tools. Signals that the file contains technical cue notation.
-
 Both extensions contain identical content and are fully interchangeable. The choice of extension signals intent and default application behavior, not format differences.
 
-> **Note:** CueScript tools may accept `.txt` files as input when the content conforms to CueScript syntax, but `.txt` is not a recognized CueScript file extension.
+> **Note:** Secuens tools may accept `.txt` files as input when the content conforms to Secuens syntax, but `.txt` is not a recognized Secuens file extension.
 
 ### Design Principles
 
-1. **Plain-Text & Fountain-Compatible** — CueScript files are plain UTF-8 text that open in any Fountain-compatible editor, where cues render as readable action lines. CueScript notation is an independent syntax layer, not a Fountain extension.
+1. **Plain-Text & Editor-Agnostic** — Secuens files are plain UTF-8 text that open in any text editor or word processor. In Fountain-compatible applications, cues render as readable action lines. Secuens notation is an independent syntax layer, not a Fountain extension.
 2. **Domain-Agnostic** — Universal format that works across theatre, film, live events, broadcast, and any production context
 3. **Non-Invasive** — Doesn't interfere with screenplay writing or reading experience
 4. **Progressive Enhancement** — Start simple, add detail as production develops
@@ -38,7 +48,7 @@ Both extensions contain identical content and are fully interchangeable. The cho
 
 ### Basic Cue Format
 
-```cuescript
+```
 CUETYPE (LABEL NUMBER) TRIGGER [METADATA]: DESCRIPTION
 ```
 
@@ -106,7 +116,7 @@ A cue must be written on a single line. Line breaks within a cue are not permitt
 
 #### Examples
 
-```cuescript
+```secuens
 # Theatre (using "cue")
 SQ (cue 5): Door slams shut
 LX (cue 12a) on "Juliet": Fade to blackout
@@ -138,9 +148,9 @@ CAMERA (cue 2): Close    ← ERROR: CAMERA already uses "shot"
 
 ## Metadata (Optional Technical Details)
 
-CueScript supports optional metadata for technical implementation. Metadata is added in square brackets immediately before the colon:
+Secuens supports optional metadata for technical implementation. Metadata is added in square brackets immediately before the colon:
 
-```cuescript
+```secuens
 CUETYPE (cue NUMBER) [key=value, key2=value2]: DESCRIPTION
 ```
 
@@ -156,18 +166,18 @@ CUETYPE (cue NUMBER) [key=value, key2=value2]: DESCRIPTION
 
 #### Value Rules
 
-| Value type                                         | Quotes   | Examples                                                             |
-| -------------------------------------------------- | -------- | -------------------------------------------------------------------- |
-| Numeric with units                                 | Never    | `fade=3s`, `level=80%`, `duration=2m`, `prewait=500ms`               |
-| Numeric (pure)                                     | Never    | `level=0.5`                                                          |
+| Value type | Quotes | Examples |
+|---|---|---|
+| Numeric with units | Never | `fade=3s`, `level=80%`, `duration=2m`, `prewait=500ms` |
+| Numeric (pure) | Never | `level=0.5` |
 | Simple string (single word, no special characters) | Optional | `fade=slow` or `fade="slow"`, `transition=cut` or `transition="cut"` |
-| String with spaces or special characters           | Required | `file="my sound.wav"`, `note="check with LD"`                        |
+| String with spaces or special characters | Required | `file="my sound.wav"`, `note="check with LD"` |
 
 **Case:** Keys must be lowercase (`[a-z]+`). Values preserve case as written — uppercase and mixed-case values are valid where domain conventions require them (e.g., `frame=CU`, `frame=MCU`, `target=Cam2`).
 
 ### Standard Metadata Keys
 
-CueScript defines common metadata keys that work across domains. **Custom keys are always allowed** — any production can define domain-specific metadata.
+Secuens defines common metadata keys that work across domains. **Custom keys are always allowed** — any production can define domain-specific metadata.
 
 #### Universal Timing & Control
 
@@ -251,7 +261,7 @@ TRIGGER and METADATA are independent and fully combinable. The examples below sh
 
 #### Theatre
 
-```cuescript
+```secuens
 LX (cue 5) [fade=3s]: Fade to blackout
 LX (cue 12) on "Juliet" [fade=3s]: Fade to blackout
 SQ (cue 2) [file="thunder.wav", level=-3dB]: Thunder crash
@@ -262,7 +272,7 @@ SPOT (cue 7) [target=spot_1, level=80%]: Pick up JOHN
 
 #### Film
 
-```cuescript
+```secuens
 CAMERA (setup 12) [lens=50mm, angle=low]: Close-up on actor
 CAMERA (setup 13) with dolly [lens=50mm, angle=low]: Push in on actor
 LIGHT (setup 3) [type=key, direction=left, intensity=2k]: Key light
@@ -272,7 +282,7 @@ VFX (cue 8) [plate=green, element=background]: Composite shot
 
 #### Live Events
 
-```cuescript
+```secuens
 VIDEO (cue 3) [source=cam2, transition=cut]: Switch to speaker cam
 VIDEO (cue 4) with speaker entrance [source=cam2, transition=cut]: Switch to speaker cam
 AUDIO (cue 7) [fade=2s, level=-6dB]: Music under speech
@@ -282,7 +292,7 @@ CAMERA (cue 5) [preset=wide, speed=slow]: Audience pan
 
 #### Broadcast
 
-```cuescript
+```secuens
 PLAYBACK (cue 1) [file="package_intro.mp4", audio=stereo]: Roll intro
 CAMERA (cue 3) [transition=dissolve, duration=1s]: Dissolve to camera 2
 CAMERA (cue 4) on "and now" [transition=dissolve, duration=1s]: Dissolve to camera 2
@@ -292,7 +302,7 @@ AUDIO (cue 2) [source=mic3, gate=-20dB]: Talent microphone
 
 #### Descriptive values also valid
 
-```cuescript
+```secuens
 LX (cue 12) [fade=slow, target=downstage]: Warm glow
 VIDEO (cue 8) [transition=fast]: Quick cut
 AUDIO (cue 3) [level=full]: Music at full volume
@@ -304,7 +314,7 @@ TRIGGER and METADATA are both optional. A cue can start as a minimal placeholder
 
 #### Phase 1: Initial Writing/Planning
 
-```cuescript
+```secuens
 LX (cue 5):
 CAMERA (cue 12):
 ```
@@ -313,7 +323,7 @@ Mark where cues happen, nothing more. Description may be left empty as a placeho
 
 #### Phase 2: Rehearsal/Pre-Production Refinement
 
-```cuescript
+```secuens
 LX (cue 5) on "Juliet": Fade to blackout
 CAMERA (cue 12) [lens=50mm]: Close-up on actor's face
 ```
@@ -322,7 +332,7 @@ Add triggers (when cues fire) and initial technical decisions as they emerge. St
 
 #### Phase 3: Technical Preparation/Production
 
-```cuescript
+```secuens
 LX (cue 5) on "Juliet" [fade=3s, warn=30s, target=all]: Fade to blackout
 CAMERA (cue 12) [lens=50mm, angle=low, frame=CU]: Close-up on actor's face
 ```
@@ -333,9 +343,9 @@ Production team adds full implementation details. Export-ready for control syste
 
 ### Standby/Warning System
 
-CueScript uses the `warn` metadata to indicate when production coordinators should give advance notice to operators:
+Secuens uses the `warn` metadata to indicate when production coordinators should give advance notice to operators:
 
-```cuescript
+```secuens
 LX (cue 5) on "Juliet" [warn=30s, fade=3s]: Fade to blackout
 VIDEO (cue 12) [warn=1m]: Roll pre-recorded package
 CAMERA (cue 8) [warn=15s]: Crane move to overhead
@@ -351,7 +361,7 @@ CAMERA (cue 8) [warn=15s]: Crane move to overhead
 
 ##### Source
 
-```cuescript
+```secuens
 LX (cue 5) on "Juliet" [warn=30s, fade=3s]: Fade to blackout
 ```
 
@@ -373,7 +383,7 @@ LX (cue 5) on "Juliet" [warn=30s, fade=3s]: Fade to blackout
 
 ## Common Cue Types
 
-**CueScript does not restrict cue types.** Any uppercase identifier is valid. Productions define cue types based on their specific needs and workflows.
+**Secuens does not restrict cue types.** Any uppercase identifier is valid. Productions define cue types based on their specific needs and workflows.
 
 Below are common conventions from different production contexts. These are suggestions, not requirements.
 
@@ -395,12 +405,12 @@ Below are common conventions from different production contexts. These are sugge
 
 ### Film Productions Commonly Use
 
-| Type     | Full Name      | Description               | Example                                 |
-| -------- | -------------- | ------------------------- | --------------------------------------- |
-| `CAMERA` | Camera         | Camera setup and movement | `CAMERA (setup 2): Dolly in on actor`   |
-| `LIGHT`  | Lighting       | Lighting setup            | `LIGHT (setup 2): Natural window light` |
-| `SOUND`  | Sound          | Sound recording notes     | `SOUND (take 1): Boom from above`       |
-| `VFX`    | Visual Effects | VFX elements and plates   | `VFX (cue 12): Green screen background` |
+| Type     | Full Name      | Description               | Example                                   |
+| -------- | -------------- | ------------------------- | ----------------------------------------- |
+| `CAMERA` | Camera         | Camera setup and movement | `CAMERA (setup 2): Dolly in on actor`     |
+| `LIGHT`  | Lighting       | Lighting setup            | `LIGHT (setup 2): Natural window light`   |
+| `SOUND`  | Sound          | Sound recording notes     | `SOUND (take 1): Boom from above`         |
+| `VFX`    | Visual Effects | VFX elements and plates   | `VFX (cue 12): Green screen background`   |
 
 ### Live Events Commonly Use
 
@@ -446,15 +456,15 @@ Custom cue types allow creative and extended uses of the format beyond standard 
 
 ## Software Compatibility
 
-CueScript documents are plain UTF-8 text files and can be opened and edited in any text editor, word processor, or screenplay application. In Fountain-compatible applications, cues render as readable action lines without modification. CueScript-aware tools add the ability to recognize and process the technical cue notation.
+Secuens documents are plain UTF-8 text files and can be opened and edited in any text editor, word processor, or screenplay application. In Fountain-compatible applications, cues render as readable action lines without modification. Secuens-aware tools add the ability to recognize and process the technical cue notation.
 
 ### Fountain Compatibility Patterns
 
-CueScript cues can be written using three Fountain constructs to control how they appear in Fountain-compatible applications.
+Secuens cues can be written using three Fountain constructs to control how they appear in Fountain-compatible applications.
 
 #### 1. Action Lines (Visible Cues)
 
-In a Fountain parser, CueScript cues that appear as plain lines are treated as action lines and rendered as readable text:
+In a Fountain parser, Secuens cues that appear as plain lines are treated as action lines and rendered as readable text:
 
 ```fountain
 John walks to the door.
@@ -466,7 +476,7 @@ He jumps back in surprise.
 
 **Result:** Cue appears in formatted screenplay, visible to all readers.
 
-**Fountain Compatibility:** A standard Fountain parser treats this as an action line. A CueScript-aware parser recognizes it as a technical cue.
+**Fountain Compatibility:** A standard Fountain parser treats this as an action line. A Secuens-aware parser recognizes it as a technical cue.
 
 #### 2. Forced Action (Guaranteed Visibility)
 
@@ -490,7 +500,7 @@ John walks to the door.
 SQ (cue 5): Door slams shut
 ```
 
-**Result:** `cue 1` is parsed by CueScript tools but invisible in formatted screenplay. `cue 5` is visible to all readers.
+**Result:** `cue 1` is parsed by Secuens tools but invisible in formatted screenplay. `cue 5` is visible to all readers.
 
 ##### Use for
 
@@ -500,7 +510,7 @@ SQ (cue 5): Door slams shut
 
 ### Final Draft — A Practical Example
 
-Final Draft is widely used in the industry, so CueScript compatibility was tested during the development of this specification. Writing cues as **Action elements** worked without issues and the syntax was preserved correctly. This is documented here as a practical example — not as an officially supported integration.
+Final Draft is widely used in the industry, so Secuens compatibility was tested during the development of this specification. Writing cues as **Action elements** worked without issues and the syntax was preserved correctly. This is documented here as a practical example — not as an officially supported integration.
 
 ```fountain
 INT. MANSION - NIGHT
@@ -516,9 +526,9 @@ SQ (cue 3): Door slams shut
 LX (cue 4): Lights flicker
 ```
 
-CueScript-aware tools that read the `.fdx` format natively (such as QBook) can parse cues directly from Final Draft files without any intermediate export step.
+Secuens-aware tools that read the `.fdx` format natively (such as QBook) can parse cues directly from Final Draft files without any intermediate export step.
 
-This was also tested by exporting from Final Draft as plain text and opening the result in QBook — CueScript syntax was preserved correctly.
+This was also tested by exporting from Final Draft as plain text and opening the result in QBook — Secuens syntax was preserved correctly.
 
 ---
 
@@ -678,7 +688,7 @@ CAMERA (cue 9) [source=cam1]: Cut to anchor
 
 Cues are typically numbered sequentially within each type:
 
-```cuescript
+```secuens
 SQ (cue 1): ...
 SQ (cue 2): ...
 SQ (cue 3): ...
@@ -690,7 +700,7 @@ When cues are added during rehearsals/production, choose one of these approaches
 
 **Method A: Letter Suffixes** (Traditional)
 
-```cuescript
+```secuens
 SQ (cue 5): Original cue
 SQ (cue 5a): Added during tech rehearsal
 SQ (cue 5b): Added later
@@ -701,7 +711,7 @@ SQ (cue 6): Next original cue
 
 **Method B: Decimal Notation** (Alternative)
 
-```cuescript
+```secuens
 SQ (cue 5): Original cue
 SQ (cue 5.5): Added during tech rehearsal
 SQ (cue 5.7): Added later
@@ -716,7 +726,7 @@ SQ (cue 6): Next original cue
 
 Each cue type maintains its own numbering sequence:
 
-```cuescript
+```secuens
 SQ (cue 1): ...
 LX (cue 1): ...  ← Different type, can reuse number
 SQ (cue 2): ...
@@ -729,7 +739,7 @@ This is standard practice - "LX 5" and "SQ 5" are different cues.
 
 ## Parser Requirements
 
-A CueScript-compliant parser MUST:
+A Secuens-compliant parser MUST:
 
 1. **Recognize the basic pattern:** `CUETYPE (LABEL NUMBER) TRIGGER [METADATA]: DESCRIPTION`
 
@@ -773,9 +783,9 @@ A CueScript-compliant parser MUST:
 8. **Handle Fountain notes:** Parse cues within `[[ ]]` as hidden cues
 9. **Preserve Fountain compatibility:** Not interfere with standard Fountain parsing
 10. **Case sensitivity:** CUETYPE must be uppercase; labels must be lowercase; cue number case must be preserved as written
-11. **Parse from plain text:** Accept any plain text input conforming to CueScript syntax, regardless of origin
+11. **Parse from plain text:** Accept any plain text input conforming to Secuens syntax, regardless of origin
 
-A CueScript-compliant parser SHOULD:
+A Secuens-compliant parser SHOULD:
 
 1. **Warn on duplicate numbers:** Flag duplicate cue numbers within the same CUETYPE
 2. **Warn on label inconsistency:** Flag when same CUETYPE uses different labels (e.g., `CAMERA (shot 1)` then `CAMERA (cue 2)`)
@@ -784,7 +794,7 @@ A CueScript-compliant parser SHOULD:
 5. **Generate coordination cues:** Calculate advance warning timing from `warn` metadata
 6. **Warn on mixed numbering:** Flag use of both letter and decimal patterns in same CUETYPE (e.g., `LX (cue 5a)` and `LX (cue 6.5)`)
 
-A CueScript-compliant parser MAY:
+A Secuens-compliant parser MAY:
 
 1. **Suggest standardization:** Offer to normalize CUETYPE naming conventions
 2. **Warn on gaps:** Identify missing numbers in sequences (gaps are valid — this is informational only)
@@ -969,9 +979,9 @@ LX (cue 5) after: Fade            ← Invalid (keyword without value)
 
 #### Film Productions
 
-Film productions think in terms of **setups** rather than cues. CueScript's flexible LABEL supports this naturally — using `setup` instead of `cue` speaks the language of the set:
+Film productions think in terms of **setups** rather than cues. Secuens's flexible LABEL supports this naturally — using `setup` instead of `cue` speaks the language of the set:
 
-```cuescript
+```secuens
 CAMERA (setup 1): Wide shot — John at door
 CAMERA (setup 2): Close-up — John's face
 CAMERA (setup 2a): Close-up variant — tighter framing
@@ -1027,33 +1037,33 @@ Features being considered for future versions:
 
 ## License
 
-CueScript is an open specification. Implementations may use any license, but the specification itself is released under [CC BY-ND 4.0](https://creativecommons.org/licenses/by-nd/4.0/).
+Secuens is an open specification. Implementations may use any license, but the specification itself is released under [CC BY-ND 4.0](https://creativecommons.org/licenses/by-nd/4.0/).
 
 ---
 
 ## Reference Implementation
 
-The CueScript specification was developed alongside a working implementation, demonstrating that the format is practical and production-ready. CueScript is an open format — any tool or application can implement the specification independently.
+The Secuens specification was developed alongside a working implementation, demonstrating that the format is practical and production-ready. Secuens is an open format — any tool or application can implement the specification independently.
 
-- **Specification repository:** <https://github.com/nmds/cuescript>
-- **Website:** <https://www.cuescript.org>
-- **Known implementations:** <https://www.cuescript.org/implementations>
+- **Specification repository:** <https://github.com/meikr/secuens>
+- **Website:** <https://www.secuens.org>
+- **Known implementations:** <https://www.secuens.org/implementations>
 
 ---
 
 ## Acknowledgments
 
-CueScript draws from production practices across theatre, film, television, live events, and broadcast industries. Thanks to production coordinators, stage managers, assistant directors, technical directors, and crew members across all disciplines for establishing the conventions that inform this specification.
+Secuens draws from production practices across theatre, film, television, live events, and broadcast industries. Thanks to production coordinators, stage managers, assistant directors, technical directors, and crew members across all disciplines for establishing the conventions that inform this specification.
 
 ### Fountain
 
-CueScript's plain-text philosophy was inspired by **Fountain**, the open-source plain text markup language for screenwriting created by [John August](http://johnaugust.com), [Stu Maschwitz](http://prolost.com), and [Nima Yousefi](http://nimayousefi.com), with contributions from Martin Vilcans, Brett Terpstra, Jonathan Poritsky, Kent Tessman, and Clinton Torres.
+Secuens's plain-text philosophy was inspired by **Fountain**, the open-source plain text markup language for screenwriting created by [John August](http://johnaugust.com), [Stu Maschwitz](http://prolost.com), and [Nima Yousefi](http://nimayousefi.com), with contributions from Martin Vilcans, Brett Terpstra, Jonathan Poritsky, Kent Tessman, and Clinton Torres.
 
-Fountain's elegant approach to plain text screenplay formatting — human-readable, portable, future-proof, and built on open standards — directly informed CueScript's design principles.
+Fountain's elegant approach to plain text screenplay formatting — human-readable, portable, future-proof, and built on open standards — directly informed Secuens's design principles.
 
 Learn more about Fountain at [fountain.io](https://fountain.io)
 
 ---
 
-_CueScript Specification v0.9 (Public Draft)_  
-_Last updated: April 2026_
+*Secuens Specification v0.9 (Public Draft)*  
+*Last updated: April 2026*
