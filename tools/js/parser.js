@@ -1,18 +1,32 @@
 /**
  * Secuens Reference Parser — JavaScript / Node.js
- * Version: 0.9
+ * Version: 0.9.1
  * License: MIT (tool implementation; specification under CC BY-ND 4.0)
  *
- * A minimal reference parser for the Secuens specification v0.9.
+ * A minimal reference parser for the Secuens specification v0.9.1.
  * Works in Node.js and in modern browsers (no dependencies).
  *
- * Usage (Node.js):
+ * Usage (Node.js CLI):
  *   node parser.js script.secuens
+ *   node parser.js script.fountain
  *
- * Usage (module):
+ * Usage (Node.js module):
  *   const { SecuensParser } = require('./parser');
  *   const parser = new SecuensParser();
  *   const result = parser.parseText(scriptText);
+ *   // result.cues        — array of parsed cues
+ *   // result.warnings    — array of non-fatal warnings
+ *   // result.cueTypesSeen — map of cuetype -> label
+ *
+ * Usage (browser):
+ *   <script src="parser.js"></script>
+ *   <script>
+ *     const parser = new SecuensParser();
+ *     const result = parser.parseText(scriptText);
+ *     // result.cues        — array of parsed cues
+ *     // result.warnings    — array of non-fatal warnings
+ *     // result.cueTypesSeen — map of cuetype -> label
+ *   </script>
  */
 
 'use strict';
@@ -229,7 +243,7 @@ class SecuensParser {
 
 function formatResult(filepath, result) {
   const lines = [];
-  lines.push(`Secuens Parser v0.9 — ${filepath}`);
+  lines.push(`Secuens Parser v0.9.1 — ${filepath}`);
   lines.push('─'.repeat(60));
   lines.push(`Found ${result.cues.length} cue(s), ${result.warnings.length} warning(s)`);
   lines.push('');

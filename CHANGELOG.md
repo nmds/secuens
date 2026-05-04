@@ -13,7 +13,7 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - Added explicit author attribution: **Nicola Marra de Scisciolo**
 - Renamed format: CueScript → **Secuens**
 - File extension updated: `.cuescript` → `.secuens`
-- Repository references updated: `github.com/meikr/secuens`
+- Repository references updated: `github.com/nmds/secuens`
 - Website references updated: `secuens.org`
 - Minor editorial corrections throughout
 

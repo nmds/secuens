@@ -1,19 +1,22 @@
 """
 Secuens Reference Parser — Python
-Version: 0.9
+Version: 0.9.1
 License: MIT (tool implementation; specification under CC BY-ND 4.0)
 
-A minimal reference parser for the Secuens specification v0.9.
+A minimal reference parser for the Secuens specification v0.9.1.
 Demonstrates correct parsing logic for all spec components.
 
-Usage:
+Usage (CLI):
     python parser.py script.secuens
     python parser.py script.fountain
 
-    Or import and use programmatically:
+Usage (module):
     from parser import SecuensParser
     parser = SecuensParser()
-    cues = parser.parse_file("script.secuens")
+    result = parser.parse_file("script.secuens")
+    # result.cues        — list of parsed cues
+    # result.warnings    — list of non-fatal warnings
+    # result.cue_types_seen — dict of cuetype -> label
 """
 
 import re
@@ -84,7 +87,7 @@ CUE_RE = re.compile(
     r'\s+'                              # required space between LABEL and NUMBER
     r'([A-Z]?[0-9]+(?:[a-z]*|(?:\.[0-9]+)))'  # NUMBER: patterns A, B, C
     r'\s*\)'                            # closing paren, optional whitespace
-    r'(?:\s+([a-z]+\s+(?:"[^"]*"|[0-9]+(?:\.[0-9]+)?(?:s|m|ms|h)|[^"\[:\n][^\[:\n]*?)))?' # TRIGGER: keyword + (quoted|time|free-form non-dialogue)
+    r'(?:\s+([a-z]+\s+(?:"[^"]*"|[0-9]+(?:\.[0-9]+)?(?:s|m|ms|h)|[^"\[:\n][^\[:\n]*?)))?' # TRIGGER
     r'(?:\s*\[([^\]]*)\])?'            # METADATA: [key=value, ...] (optional)
     r'\s*:\s*'                          # colon separator
     r'(.*)'                             # DESCRIPTION
@@ -109,7 +112,7 @@ TIME_VALUE_RE = re.compile(r'^[0-9]+(?:\.[0-9]+)?(s|m|ms|h)$')
 
 class SecuensParser:
     """
-    Minimal Secuens v0.9 reference parser.
+    Minimal Secuens v0.9.1 reference parser.
 
     Implements all MUST requirements from the specification.
     Implements key SHOULD requirements (warnings).
@@ -167,7 +170,6 @@ class SecuensParser:
 
     def _parse_cue(self, line: str, line_number: int, raw: str, hidden: bool, warnings: list) -> Optional[Cue]:
         # Check for trigger-keyword-without-value pattern before main parse
-        # e.g. "LX (cue 5) on: Fade" — keyword directly before colon
         kw_no_val = TRIGGER_NO_VALUE_RE.match(line)
         if kw_no_val:
             warnings.append(ParseWarning(
@@ -175,7 +177,6 @@ class SecuensParser:
                 message=f"Trigger keyword '{kw_no_val.group(2)}' has no value",
                 raw=raw
             ))
-            # Still attempt to parse the rest of the cue without the trigger
 
         match = CUE_RE.match(line)
         if not match:
@@ -184,8 +185,8 @@ class SecuensParser:
         cue_type = match.group(1)
         label = match.group(2)
         number = match.group(3)
-        trigger_raw = match.group(4)  # e.g. 'on "Juliet"' or 'after 3s' or None
-        metadata_raw = match.group(5)  # content inside [ ] or None
+        trigger_raw = match.group(4)
+        metadata_raw = match.group(5)
         description = match.group(6).strip()
 
         # Parse trigger
@@ -197,7 +198,6 @@ class SecuensParser:
                 trigger_keyword = trigger_parts[0]
                 trigger_value = trigger_parts[1]
             elif len(trigger_parts) == 1:
-                # keyword without value — invalid per spec, but we warn rather than fail
                 warnings.append(ParseWarning(
                     line_number=line_number,
                     message=f"Trigger keyword '{trigger_parts[0]}' has no value",
@@ -291,12 +291,11 @@ def main():
         print(f"Error: File not found: {filepath}")
         sys.exit(1)
 
-    print(f"Secuens Parser v0.9 — {filepath}")
+    print(f"Secuens Parser v0.9.1 — {filepath}")
     print(f"{'─' * 60}")
     print(f"Found {len(result.cues)} cue(s), {len(result.warnings)} warning(s)")
     print()
 
-    # Print cues
     for cue in result.cues:
         hidden_marker = " [HIDDEN]" if cue.hidden else ""
         trigger_str = ""
@@ -309,14 +308,12 @@ def main():
         if cue.description:
             print(f"             → {cue.description}")
 
-    # Print warnings
     if result.warnings:
         print()
         print("Warnings:")
         for w in result.warnings:
             print(f"  Line {w.line_number:4d}: ⚠ {w.message}")
 
-    # Summary of cue types
     print()
     print("Cue Types:")
     for cue_type, label in sorted(result.cue_types_seen.items()):

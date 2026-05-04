@@ -2,11 +2,11 @@
 
 **Plain-text technical cue notation for theatre, film, live events, and broadcast.**
 
-> *Write the cue where the idea happens.*
+> _Write the cue where the idea happens._
 
 ---
 
-Secuens is an open specification for embedding technical cues directly inside scripts, scores, and production documents — as readable plain text. No proprietary formats, no separate cue lists, no extra tools required to read.
+Secuens is an open specification for embedding technical cues directly inside scripts, scores, and production documents, as readable plain text. No proprietary formats, no separate cue lists, no extra tools required to read.
 
 A Secuens cue looks like this:
 
@@ -116,6 +116,7 @@ The full specification lives in [`specification/v0.9/`](specification/v0.9/).
 Current version: **v0.9.1 (Public Draft, April 2026)**
 
 The spec covers:
+
 - Complete syntax definition with formal patterns
 - All cue components: CUETYPE, LABEL, NUMBER, TRIGGER, METADATA, DESCRIPTION
 - Standard metadata keys for timing, levels, files, targets, and more
@@ -131,13 +132,13 @@ The spec covers:
 
 Real-world example files are in [`examples/`](examples/):
 
-| File | Domain |
-|------|--------|
-| [`theatre-basic.secuens`](examples/theatre-basic.secuens) | Simple theatre scene |
-| [`theatre-musical.secuens`](examples/theatre-musical.secuens) | Musical theatre, multi-department |
-| [`film-shoot.secuens`](examples/film-shoot.secuens) | Film production with setup notation |
-| [`live-event-conference.secuens`](examples/live-event-conference.secuens) | Corporate live event |
-| [`broadcast-newscast.secuens`](examples/broadcast-newscast.secuens) | TV broadcast |
+| File                                                                      | Domain                              |
+| ------------------------------------------------------------------------- | ----------------------------------- |
+| [`theatre-basic.secuens`](examples/theatre-basic.secuens)                 | Simple theatre scene                |
+| [`theatre-musical.secuens`](examples/theatre-musical.secuens)             | Musical theatre, multi-department   |
+| [`film-shoot.secuens`](examples/film-shoot.secuens)                       | Film production with setup notation |
+| [`live-event-conference.secuens`](examples/live-event-conference.secuens) | Corporate live event                |
+| [`broadcast-newscast.secuens`](examples/broadcast-newscast.secuens)       | TV broadcast                        |
 
 ---
 
@@ -198,9 +199,9 @@ Implementations — parsers, editors, tools built on Secuens — may use any lic
 
 Secuens draws from production practices across theatre, film, television, live events, and broadcast. Its plain-text philosophy was inspired by [Fountain](https://fountain.io), the open screenplay markup language.
 
-The name *Secuens* comes from the Latin *sequens* — the sequence, the thing that follows — with the cue hidden inside.
+The name _Secuens_ comes from the Latin _sequens_ — the sequence, the thing that follows — with the cue hidden inside.
 
 ---
 
-*Secuens Specification v0.9.1 (Public Draft) — April 2026*  
-*[secuens.org](https://www.secuens.org) · [github.com/meikr/secuens](https://github.com/meikr/secuens)*
+_Secuens Specification v0.9.1 (Public Draft) — April 2026_  
+_[secuens.org](https://www.secuens.org) · [github.com/meikr/secuens](https://github.com/meikr/secuens)_

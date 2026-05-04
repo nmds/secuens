@@ -18,13 +18,14 @@ It does not contain application code. If you're looking to build a tool that imp
 
 If you find ambiguities, edge cases, or errors in the specification:
 
-1. Open an [Issue](https://github.com/meikr/secuens/issues)
+1. Open an [Issue](https://github.com/nmds/secuens/issues)
 2. Use the label `spec-issue`
 3. Describe the specific section, the problem, and (if possible) a proposed resolution
 
 ### Suggest Improvements
 
 If you have ideas for:
+
 - New standard metadata keys
 - Domain-specific cue type conventions
 - New trigger keyword patterns

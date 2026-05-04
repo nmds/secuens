@@ -1,23 +1,35 @@
 """
-Secuens Specification Validator — Test Cases
-Version: 0.9
+Secuens Specification Validator — Test Cases (Python)
+Version: 0.9.1
 License: MIT
 
-Validates that a parser correctly handles all cases defined in
-the Secuens v0.9 specification.
+Validates that a Secuens parser correctly handles all cases defined
+in the Secuens v0.9.1 specification. Run this against any parser
+implementation to verify compliance.
 
 Usage:
     python validator.py
+
+Output:
+    PASS — the parser behaved as expected
+    FAIL — the parser returned an unexpected result
 
 Each test case is labelled:
     VALID   — the parser MUST recognize this as a cue
     INVALID — the parser MUST NOT recognize this as a cue
     WARN    — the parser MUST parse this but SHOULD emit a warning
+
+Exit code:
+    0 — all tests passed
+    1 — one or more tests failed
+
+Note: validator.py expects parser.py to be in the same directory,
+or adjust the path in sys.path.insert below.
 """
 
 import sys
 import os
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', 'parsers', 'python'))
+sys.path.insert(0, os.path.dirname(__file__))
 
 from parser import SecuensParser
 
@@ -256,7 +268,6 @@ TEST_CASES = [
         description="Custom metadata keys always allowed"
     ),
 
-    # Long multi-word CUETYPE
     TestCase("VALID", "long cuetype",
         "GRAPHICS (cue 1): Display title",
         expect_cue={"cue_type": "GRAPHICS"},
@@ -296,8 +307,7 @@ TEST_CASES = [
         "LX (cue 5) on Juliet: Fade",
         expect_cue={"cue_type": "LX"},
         expect_warning_contains=None,
-        description="Unquoted dialogue trigger — ambiguous, spec says quotes MUST be used. "
-                    "Parser will parse but correct usage requires quotes."
+        description="Unquoted dialogue trigger — ambiguous, spec says quotes MUST be used."
     ),
 
     TestCase("INVALID", "normal action line",
@@ -350,7 +360,7 @@ def run_tests(parser: SecuensParser) -> tuple[int, int, int]:
     failed = 0
     skipped = 0
 
-    print("Secuens Specification Validator — v0.9")
+    print("Secuens Specification Validator — v0.9.1")
     print("=" * 60)
     print()
 
