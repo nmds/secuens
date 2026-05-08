@@ -10,7 +10,7 @@ Secuens is an open specification for embedding technical cues directly inside sc
 
 A Secuens cue looks like this:
 
-```
+```txt
 LX (cue 5) on "Juliet" [fade=3s]: Fade to blackout
 CAMERA (shot 3) [lens=85mm, frame=CU]: Close-up on actor's face
 AUDIO (cue 7) [fade=2s, level=-6dB]: Music under speech
@@ -34,7 +34,7 @@ Secuens fixes that by bringing the cue back where the idea lives: **in the text*
 
 A cue follows a consistent pattern:
 
-```
+```text
 CUETYPE (label NUMBER) TRIGGER [METADATA]: DESCRIPTION
 ```
 
@@ -52,7 +52,7 @@ Secuens files are plain UTF-8 text. They can be opened in any text editor or wor
 
 ### Theatre
 
-```secuens
+```text
 INT. HAUNTED MANSION - NIGHT
 
 John enters cautiously.
@@ -72,7 +72,7 @@ LX (cue 7) [fade=5s, warn=30s]: Slow fade to blackout
 
 ### Film
 
-```secuens
+```text
 EXT. CITY STREET - DAY
 
 CAMERA (shot 1) [lens=35mm, movement=tracking]: Follow Sarah medium shot
@@ -88,7 +88,7 @@ LIGHT (setup 2) [type=bounce, direction=left]: Soften shadows on actor
 
 ### Live Event
 
-```secuens
+```text
 LIGHTS (cue 1) [fade=3s, preset=stage_wash]: Stage lights up
 
 VIDEO (cue 2) [source=playback, file="intro.mp4"]: Roll intro video
@@ -111,7 +111,7 @@ Both extensions contain identical content and are fully interchangeable.
 
 ## Specification
 
-The full specification lives in [`specification/v0.9/`](specification/v0.9/).
+The full specification lives in [`specification/v0.9/`](https://github.com/nmds/secuens/tree/main/specification/v0.9).
 
 Current version: **v0.9.1 (Public Draft, April 2026)**
 
@@ -130,15 +130,15 @@ The spec covers:
 
 ## Examples
 
-Real-world example files are in [`examples/`](examples/):
+Real-world example files are in [`specification/v0.9/examples/`](https://github.com/nmds/secuens/tree/main/specification/v0.9/examples):
 
-| File                                                                      | Domain                              |
-| ------------------------------------------------------------------------- | ----------------------------------- |
-| [`theatre-basic.secuens`](examples/theatre-basic.secuens)                 | Simple theatre scene                |
-| [`theatre-musical.secuens`](examples/theatre-musical.secuens)             | Musical theatre, multi-department   |
-| [`film-shoot.secuens`](examples/film-shoot.secuens)                       | Film production with setup notation |
-| [`live-event-conference.secuens`](examples/live-event-conference.secuens) | Corporate live event                |
-| [`broadcast-newscast.secuens`](examples/broadcast-newscast.secuens)       | TV broadcast                        |
+| File                                                                                                                                   | Domain                              |
+| -------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------- |
+| [`theatre-basic.secuens`](https://github.com/nmds/secuens/blob/main/specification/v0.9/examples/theatre-basic.secuens)                 | Simple theatre scene                |
+| [`theatre-musical.secuens`](https://github.com/nmds/secuens/blob/main/specification/v0.9/examples/theatre-musical.secuens)             | Musical theatre, multi-department   |
+| [`film-shoot.secuens`](https://github.com/nmds/secuens/blob/main/specification/v0.9/examples/film-shoot.secuens)                       | Film production with setup notation |
+| [`live-event-conference.secuens`](https://github.com/nmds/secuens/blob/main/specification/v0.9/examples/live-event-conference.secuens) | Corporate live event                |
+| [`broadcast-newscast.secuens`](https://github.com/nmds/secuens/blob/main/specification/v0.9/examples/broadcast-newscast.secuens)       | TV broadcast                        |
 
 ---
 
@@ -146,11 +146,11 @@ Real-world example files are in [`examples/`](examples/):
 
 ### Parsers
 
-- [`tools/parsers/`](tools/parsers/) — Reference parser implementations
+Reference parser implementations in [`tools/js/parser.js`](https://github.com/nmds/secuens/blob/main/tools/js/parser.js) and [`tools/python/parser.py`](https://github.com/nmds/secuens/blob/main/tools/python/parser.py).
 
 ### Validators
 
-- [`tools/validators/`](tools/validators/) — Validator logic and test cases
+Spec compliance validators in [`tools/js/validator.js`](https://github.com/nmds/secuens/blob/main/tools/js/validator.js) and [`tools/python/validator.py`](https://github.com/nmds/secuens/blob/main/tools/python/validator.py).
 
 ### Known Implementations
 
@@ -164,7 +164,7 @@ See [secuens.org/implementations](https://www.secuens.org/implementations) for a
 
 Secuens is designed for production workflows. A cue is valid at any stage of detail:
 
-```secuens
+```text
 # During scripting — mark where it happens
 LX (cue 5):
 
@@ -181,7 +181,7 @@ LX (cue 5) on "Juliet" [fade=3s, warn=30s, target=all]: Fade to blackout
 
 Secuens is an open specification. Community input is welcome — especially from production practitioners across all domains.
 
-See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
+See [CONTRIBUTING.md](https://github.com/nmds/secuens/blob/main/CONTRIBUTING.md) for guidelines.
 
 ---
 
@@ -203,5 +203,5 @@ The name _Secuens_ comes from the Latin _sequens_ — the sequence, the thing th
 
 ---
 
-_Secuens Specification v0.9.1 (Public Draft) — April 2026_  
-_[secuens.org](https://www.secuens.org) · [github.com/meikr/secuens](https://github.com/meikr/secuens)_
+_Secuens Specification v0.9.1 (Public Draft) — April 2026_
+_[secuens.org](https://www.secuens.org) · [github.com/nmds/secuens](https://github.com/nmds/secuens)_
