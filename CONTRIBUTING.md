@@ -12,6 +12,15 @@ It does not contain application code. If you're looking to build a tool that imp
 
 ---
 
+## Branch Structure
+
+- **`main`** — stable releases only. Do not open PRs directly against `main`.
+- **`draft`** — active development branch. All contributions go here.
+
+When contributing, always open Pull Requests against the `draft` branch.
+
+---
+
 ## Ways to Contribute
 
 ### Report Specification Issues
@@ -38,12 +47,12 @@ Open an Issue with the label `enhancement` and describe your use case from real 
 If you have real-world production examples that demonstrate edge cases or domain-specific workflows:
 
 1. Fork the repository
-2. Add your example to `examples/` following the naming convention: `domain-description.secuens`
-3. Open a Pull Request with a brief description of what the example demonstrates
+2. Add your example to `specification/v0.9/examples/` following the naming convention: `domain-description.secuens`
+3. Open a Pull Request against the `draft` branch with a brief description of what the example demonstrates
 
 ### Fix Documentation
 
-Typos, unclear wording, broken links — open a Pull Request directly.
+Typos, unclear wording, broken links — open a Pull Request against the `draft` branch.
 
 ---
 
@@ -70,7 +79,7 @@ If you work in production and find something that doesn't match how you actually
 
 ## Specification Philosophy
 
-Before submitting a contribution, please read the [Design Principles](specification/v0.9/Secuens-v0.9-DRAFT.md#design-principles) in the spec. Contributions should align with:
+Before submitting a contribution, please read the [Design Principles](specification/v0.9/Secuens-v0.9.1-DRAFT.md#design-principles) in the spec. Contributions should align with:
 
 - **Plain-text first** — the spec must remain readable in any text editor
 - **Domain-agnostic** — changes should work across theatre, film, broadcast, and beyond
@@ -81,9 +90,9 @@ Before submitting a contribution, please read the [Design Principles](specificat
 
 ## Process
 
-This is a small, focused project. There's no formal governance structure yet. Significant changes to the specification will be discussed openly in Issues before being incorporated.
+This is a small, focused project. There's no formal governance structure yet. Significant changes to the specification will be discussed openly in Issues and Discussions before being incorporated.
 
-The specification maintainer is [@meikr](https://github.com/meikr).
+The specification maintainer is [@nmds](https://github.com/nmds).
 
 ---
 
